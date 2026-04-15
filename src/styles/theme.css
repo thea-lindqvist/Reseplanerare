@@ -16,6 +16,14 @@
   --navy: #1A2B3D;
   --navy-light: #2D4459;
 
+  /* Aliases used by new Figma Make components */
+  --ocean-blue: #1A2B3D;
+  --coral: #C96A56;
+  --coral-light: #D88773;
+  --fresh-green: #8B956D;
+  --sunny-yellow: #E8DCC8;
+  --sunny-yellow-light: #F0E8D9;
+
   --background: var(--off-white);
   --foreground: var(--navy);
   --card: #ffffff;
