@@ -22,7 +22,13 @@ import {
   Calendar,
   DollarSign,
   Plane,
-  ArrowLeft
+  ArrowLeft,
+  Train,
+  Bus,
+  Ship,
+  CloudRain,
+  Thermometer,
+  Clock
 } from 'lucide-react';
 
 type TravellerType = 'solo' | 'couple' | 'friends' | 'family' | 'multi-gen';
@@ -104,11 +110,11 @@ export default function App() {
           >
             <div className="space-y-3">
               {[
-                { value: 'solo' as TravellerType, icon: <User />, title: 'Ensam', description: 'Bara jag' },
+                { value: 'solo' as TravellerType, icon: <User />, title: 'Solo', description: 'Bara jag' },
                 { value: 'couple' as TravellerType, icon: <Heart />, title: 'Par', description: 'Vi två' },
-                { value: 'friends' as TravellerType, icon: <Users />, title: 'Vänner', description: 'En grupp vänner' },
+                { value: 'friends' as TravellerType, icon: <Users />, title: 'Vänner', description: 'En grupp kompisar' },
                 { value: 'family' as TravellerType, icon: <Baby />, title: 'Familj med barn', description: 'Reser med barn' },
-                { value: 'multi-gen' as TravellerType, icon: <Users />, title: 'Flergenerations', description: 'Storfamilj' },
+                { value: 'multi-gen' as TravellerType, icon: <Users />, title: 'Flera generationer', description: 'Hela familjen' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -137,14 +143,14 @@ export default function App() {
         return (
           <QuestionScreen
             title="Hur gamla är barnen?"
-            subtitle="Det hjälper oss föreslå barnvänliga aktiviteter"
+            subtitle="Det hjälper oss föreslå familjevänliga aktiviteter"
             currentStep={screenToStep.ages}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-4">
               <div className="bg-white p-6 rounded-2xl shadow-sm">
-                <p className="text-[var(--navy)]/60 text-sm mb-4">Välj de åldersgrupper som passar</p>
+                <p className="text-[var(--ocean-blue)]/60 text-sm mb-4">Välj åldrar som passar</p>
                 {[
                   { label: 'Under 3 år', value: 0 },
                   { label: '3-7 år', value: 1 },
@@ -154,7 +160,7 @@ export default function App() {
                   <label key={i} className="flex items-center gap-3 py-3 cursor-pointer">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 rounded accent-[var(--terracotta)]"
+                      className="w-5 h-5 rounded accent-[var(--coral)]"
                       checked={tripData.ages?.includes(age.value) || false}
                       onChange={(e) => {
                         const ages = tripData.ages || [];
@@ -166,7 +172,7 @@ export default function App() {
                         });
                       }}
                     />
-                    <span className="text-[var(--navy)]">{age.label}</span>
+                    <span className="text-[var(--ocean-blue)]">{age.label}</span>
                   </label>
                 ))}
               </div>
@@ -185,7 +191,7 @@ export default function App() {
           >
             <div className="space-y-6">
               <div>
-                <p className="text-sm text-[var(--navy)]/60 mb-3">Tid på året</p>
+                <p className="text-sm text-[var(--ocean-blue)]/60 mb-3">Tid på året</p>
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { value: 'spring' as Season, icon: <Sparkles />, title: 'Vår' },
@@ -206,7 +212,7 @@ export default function App() {
               </div>
 
               <div>
-                <p className="text-sm text-[var(--navy)]/60 mb-3">Hur länge?</p>
+                <p className="text-sm text-[var(--ocean-blue)]/60 mb-3">Hur länge?</p>
                 <div className="space-y-3">
                   {[
                     { value: 'weekend' as Duration, title: 'Weekendresa', description: '2-3 dagar' },
@@ -240,7 +246,7 @@ export default function App() {
         return (
           <QuestionScreen
             title="Vad är du sugen på?"
-            subtitle="Välj hur många du vill"
+            subtitle="Välj så många du vill"
             currentStep={screenToStep.mood}
             totalSteps={totalSteps}
             onBack={goBack}
@@ -248,13 +254,13 @@ export default function App() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: 'beach' as Mood, icon: <Waves />, title: 'Sol & strand' },
+                  { value: 'beach' as Mood, icon: <Waves />, title: 'Sol & bad' },
                   { value: 'city' as Mood, icon: <Building2 />, title: 'Stad & kultur' },
                   { value: 'food' as Mood, icon: <UtensilsCrossed />, title: 'Mat & vin' },
                   { value: 'nature' as Mood, icon: <Mountain />, title: 'Natur & vandring' },
                   { value: 'adventure' as Mood, icon: <Compass />, title: 'Äventyr' },
                   { value: 'wellness' as Mood, icon: <Sparkles />, title: 'Avkoppling' },
-                  { value: 'offbeat' as Mood, icon: <MapPin />, title: 'Bortom turiststråken' },
+                  { value: 'offbeat' as Mood, icon: <MapPin />, title: 'Utanför turiststråken' },
                 ].map((option, i) => (
                   <ChoiceCard
                     key={option.value}
@@ -286,17 +292,17 @@ export default function App() {
       case 'budget':
         return (
           <QuestionScreen
-            title="Vad är din budget?"
+            title="Vad har du för budget?"
             currentStep={screenToStep.budget}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-3">
               {[
-                { value: 'budget' as Budget, icon: <DollarSign />, title: 'Budgetvänlig', description: 'Bra värde utan kompromisser' },
-                { value: 'comfortable' as Budget, icon: <DollarSign />, title: 'Bekväm', description: 'Fina hotell och restauranger' },
-                { value: 'treat' as Budget, icon: <DollarSign />, title: 'Unna dig', description: 'Exklusivt och minnesvärt' },
-                { value: 'luxury' as Budget, icon: <DollarSign />, title: 'Inga gränser', description: 'De allra bästa upplevelserna' },
+                { value: 'budget' as Budget, icon: <DollarSign />, title: 'Budgetvänligt', description: 'Bra värde utan kompromisser' },
+                { value: 'comfortable' as Budget, icon: <DollarSign />, title: 'Bekvämt', description: 'Fina hotell och restauranger' },
+                { value: 'treat' as Budget, icon: <DollarSign />, title: 'Skäm bort dig', description: 'Exklusivt och minnesvärt' },
+                { value: 'luxury' as Budget, icon: <DollarSign />, title: 'Inga begränsningar', description: 'De allra bästa upplevelserna' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -318,17 +324,17 @@ export default function App() {
       case 'distance':
         return (
           <QuestionScreen
-            title="Hur långt är du villig att resa?"
+            title="Hur långt vill du resa?"
             currentStep={screenToStep.distance}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-3">
               {[
-                { value: 'nearby' as Distance, icon: <MapPin />, title: 'Nära', description: 'Kort flyg eller bilresa' },
+                { value: 'nearby' as Distance, icon: <MapPin />, title: 'Närområdet', description: 'Kort flygresa eller biltur' },
                 { value: 'europe' as Distance, icon: <Plane />, title: 'Inom Europa', description: '2-4 timmars flyg' },
-                { value: 'long-haul' as Distance, icon: <Plane />, title: 'Långdistans', description: '6+ timmars flyg' },
-                { value: 'anywhere' as Distance, icon: <Compass />, title: 'Varsomhelst', description: 'Avståndet spelar ingen roll' },
+                { value: 'long-haul' as Distance, icon: <Plane />, title: 'Långresa', description: '6+ timmars flyg' },
+                { value: 'anywhere' as Distance, icon: <Compass />, title: 'Var som helst', description: 'Avståndet spelar ingen roll' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -387,19 +393,19 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Decorative background elements */}
-      <div className="absolute top-20 right-10 w-32 h-32 bg-[var(--sand)] rounded-full opacity-40 blur-3xl" />
-      <div className="absolute bottom-32 left-10 w-40 h-40 bg-[var(--olive)] rounded-full opacity-30 blur-3xl" />
+      <div className="absolute top-20 right-10 w-32 h-32 bg-[var(--sunny-yellow)] rounded-full opacity-40 blur-3xl" />
+      <div className="absolute bottom-32 left-10 w-40 h-40 bg-[var(--fresh-green)] rounded-full opacity-30 blur-3xl" />
 
       <div className="max-w-md w-full text-center space-y-8 animate-fade-in relative z-10">
         <div className="space-y-4">
           <h1
-            className="text-6xl md:text-7xl text-[var(--navy)] leading-tight"
+            className="text-6xl md:text-7xl text-[var(--ocean-blue)] leading-tight"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Låt oss hitta din nästa resa
+            Hitta din nästa resa
           </h1>
-          <p className="text-lg text-[var(--navy)]/70">
-            Svara på några frågor och vi planerar den perfekta resan
+          <p className="text-lg text-[var(--ocean-blue)]/70">
+            Svara på några frågor så planerar vi den perfekta resan
           </p>
         </div>
 
@@ -435,13 +441,13 @@ function QuestionScreen({ title, subtitle, currentStep, totalSteps, onBack, chil
         <div className="max-w-lg mx-auto space-y-6">
           <div className="space-y-2 animate-fade-in">
             <h2
-              className="text-4xl text-[var(--navy)] leading-tight"
+              className="text-4xl text-[var(--ocean-blue)] leading-tight"
               style={{ fontFamily: 'var(--font-serif)' }}
             >
               {title}
             </h2>
             {subtitle && (
-              <p className="text-[var(--navy)]/60">{subtitle}</p>
+              <p className="text-[var(--ocean-blue)]/60">{subtitle}</p>
             )}
           </div>
 
@@ -464,18 +470,18 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     <div className="min-h-screen flex flex-col items-center justify-center p-6">
       <div className="text-center space-y-6 animate-fade-in">
         <div className="relative">
-          <Loader2 className="w-16 h-16 text-[var(--terracotta)] animate-spin mx-auto" />
-          <div className="absolute inset-0 bg-[var(--terracotta)] opacity-20 rounded-full blur-xl" />
+          <Loader2 className="w-16 h-16 text-[var(--coral)] animate-spin mx-auto" />
+          <div className="absolute inset-0 bg-[var(--coral)] opacity-20 rounded-full blur-xl" />
         </div>
         <div className="space-y-2">
           <h3
-            className="text-3xl text-[var(--navy)]"
+            className="text-3xl text-[var(--ocean-blue)]"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Söker din perfekta resa...
+            Hittar din perfekta resa...
           </h3>
-          <p className="text-[var(--navy)]/60">
-            Söker igenom fantastiska resmål
+          <p className="text-[var(--ocean-blue)]/60">
+            Letar bland fantastiska resmål
           </p>
         </div>
       </div>
@@ -487,22 +493,22 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestination: (index: number) => void; onBack: () => void }) {
   const destinations = [
     {
-      name: 'Sicily, Italy',
+      name: 'Sicilien, Italien',
       tagline: 'Perfekt för höstsol, matälskare och par',
-      tags: ['Medelhavskök', 'Antik historia', 'Kustsamhällen'],
-      image: 'https://images.unsplash.com/photo-1555992509-1f7e3f14d4a5?w=800&q=80',
+      tags: ['Medelhavskök', 'Antik historia', 'Kuststäder'],
+      image: 'https://images.unsplash.com/photo-1676943602552-3a8fe0ea3ff7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     },
     {
-      name: 'Greek Islands',
-      tagline: 'Paradis för öhopping med fantastiska stränder',
-      tags: ['Strandliv', 'Färsk skaldjur', 'Kalkvitrappade byar'],
-      image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800&q=80',
+      name: 'Grekiska öarna',
+      tagline: 'Ö-hopping-paradis med fantastiska stränder',
+      tags: ['Strandliv', 'Färsk skaldjur', 'Vitkalkade byar'],
+      image: 'https://images.unsplash.com/photo-1775480980898-e847f65ed2f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     },
     {
-      name: 'Provence, France',
-      tagline: 'Lavendelfält och vinlandets charm',
+      name: 'Provence, Frankrike',
+      tagline: 'Lavendelfält och vinkulturens charm',
       tags: ['Vinprovning', 'Landsbygd', 'Lokala marknader'],
-      image: 'https://images.unsplash.com/photo-1555992336-fb0d29498b13?w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1729804913360-d14ee7c1be6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     },
   ];
 
@@ -516,13 +522,13 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
         <div className="max-w-lg mx-auto space-y-6">
           <div className="space-y-2 animate-fade-in">
             <h2
-              className="text-4xl text-[var(--navy)] leading-tight"
+              className="text-4xl text-[var(--ocean-blue)] leading-tight"
               style={{ fontFamily: 'var(--font-serif)' }}
             >
-              Vi hittade dessa åt dig
+              Vi hittade dessa för dig
             </h2>
-            <p className="text-[var(--navy)]/60">
-              Tryck på ett resmål för att se personliga förslag på vad du kan göra, hur du reser och var du äter
+            <p className="text-[var(--ocean-blue)]/60">
+              Tryck på ett resmål för personliga förslag på vad du kan göra, hur du reser dit och var du ska äta
             </p>
           </div>
 
@@ -544,27 +550,27 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
                 <div className="p-5 space-y-3">
                   <div>
                     <h3
-                      className="text-2xl text-[var(--navy)] mb-1"
+                      className="text-2xl text-[var(--ocean-blue)] mb-1"
                       style={{ fontFamily: 'var(--font-serif)' }}
                     >
                       {dest.name}
                     </h3>
-                    <p className="text-sm text-[var(--navy)]/70">{dest.tagline}</p>
+                    <p className="text-sm text-[var(--ocean-blue)]/70">{dest.tagline}</p>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {dest.tags.map((tag, j) => (
                       <span
                         key={j}
-                        className="px-3 py-1 bg-[var(--sand)] text-[var(--navy)] text-xs rounded-full"
+                        className="px-3 py-1 bg-[var(--sunny-yellow)] text-[var(--ocean-blue)] text-xs rounded-full"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-[var(--navy)]/50 pt-2 border-t border-[var(--sand)]">
+                  <div className="flex items-center gap-4 text-xs text-[var(--ocean-blue)]/50 pt-2 border-t border-[var(--sunny-yellow)]">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5" />
-                      Dag för dag-plan
+                      Dag för dag
                     </span>
                     <span className="flex items-center gap-1">
                       <UtensilsCrossed className="w-3.5 h-3.5" />
@@ -572,7 +578,7 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
                     </span>
                     <span className="flex items-center gap-1">
                       <Plane className="w-3.5 h-3.5" />
-                      Reseråd
+                      Resetips
                     </span>
                   </div>
                 </div>
@@ -587,81 +593,165 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
 
 // Trip Plan Screen
 function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { destinationIndex: number; onBack: () => void; onChangeDestination: () => void }) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'days' | 'eat' | 'tips'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'days' | 'eat' | 'transport' | 'weather' | 'tips'>('overview');
 
   const destination = {
-    name: 'Sicily, Italy',
-    hero: 'https://images.unsplash.com/photo-1555992509-1f7e3f14d4a5?w=1200&q=80',
+    name: 'Sicilien, Italien',
+    hero: 'https://images.unsplash.com/photo-1676943602552-3a8fe0ea3ff7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200',
     overview: {
-      why: "Sicilien i oktober erbjuder den perfekta blandningen av varmt medelhavsklimat, skördesäsongens rikedomar och färre turister. Öns rika historia av grekiska, romerska, arabiska och normandiska influenser skapar en oförglömlig kulturell upplevelse.",
-      bestTime: 'Oktober är idealiskt – varma dagar (21–24 °C), behagliga kvällar, druv- och olivskördens säsong',
-      vibe: 'Avslappnat öltempo med passionerad lokalbefolkning, fantastisk matkultur och dramatiska landskap – från Etna till antika ruiner',
+      why: "Sicilien i oktober erbjuder den perfekta blandningen av varmt medelhavsväder, skördesäsongens överflöd och färre turister. Öns rika mosaik av grekiska, romerska, arabiska och normandiska influenser skapar en oförglömlig kulturupplevelse.",
+      bestTime: 'Oktober är idealiskt - varma dagar (21-24°C), sköna kvällar, druv- och olivskördens säsong',
+      vibe: 'Avslappnad ötakt med passionerad lokal kultur, fantastisk matscen och dramatiska landskap från Etna till antika ruiner',
+    },
+    weather: {
+      temperature: '21-24°C dagtid, 15-18°C nattetid',
+      rainfall: 'Måttlig nederbörd, ca 5-6 regniga dagar under månaden',
+      sunshine: '7-8 timmars sol per dag',
+      seaTemp: 'Havstemperatur 22-23°C, perfekt för bad',
+      clothing: 'Lätta sommarkläder för dagen, en lätt jacka eller kofta för kvällarna',
     },
     travel: {
-      gettingThere: 'Flyg till Palermo (PMO) eller Catania (CTA). Direktflyg finns från de flesta europeiska storstäder (2–3 timmar från London, Paris eller Berlin). Catania ligger närmare Etna och Taormina; Palermo är bäst för västra Sicilien.',
-      gettingAround: 'Hyr bil för maximal frihet – nödvändigt för att utforska landsbygden och kustsöder. Alternativt kan du kombinera tåg mellan städer med lokalbussar och taxi. Överväg att hyra en förare för Etna-utflykter.',
-      bestRoutes: 'Starta i Palermo, kör österut längs kusten via Cefalù till Taormina, sedan söderut till Syrakusa och Ragusa, sväng västerut mot Agrigento och återvänd till Palermo. Eller gör rutten baklänges från Catania.',
+      gettingThere: 'Flyg till Palermo (PMO) eller Catania (CTA) flygplatser. Direktflyg finns från stora europeiska städer (2-3 timmar från London, Paris eller Berlin). Catania är närmare Etna och Taormina; Palermo är perfekt för västra Sicilien.',
+      gettingAround: 'Hyr bil för maximal flexibilitet - viktigt för att utforska landsbygden och kuststäderna. Alternativt, kombinera tåg för stad-till-stad-resor med lokala bussar eller taxi. Överväg att hyra chaufför för Etna-utflykter.',
+      bestRoutes: 'Börja i Palermo, kör österut längs kusten genom Cefalù till Taormina, sedan söderut till Syracuse och Ragusa, sväng västerut till Agrigento och tillbaka till Palermo. Eller vänd på rutten från Catania.',
+    },
+    transport: {
+      trains: [
+        {
+          route: 'Palermo - Cefalù',
+          frequency: 'Var 1-2 timme',
+          duration: '45 minuter',
+          price: '€5-8',
+          notes: 'Vacker kustrutt, boka i förväg på helger'
+        },
+        {
+          route: 'Catania - Taormina',
+          frequency: 'Var 30-45 minuter',
+          duration: '50 minuter',
+          price: '€4-7',
+          notes: 'Stationen ligger 2km från centrum, shuttlebuss finns'
+        },
+        {
+          route: 'Syracuse - Catania',
+          frequency: 'Var timme',
+          duration: '1 timme 15 min',
+          price: '€7-10',
+          notes: 'Bekvämt alternativ till bil'
+        },
+      ],
+      buses: [
+        {
+          route: 'Catania - Agrigento',
+          operator: 'SAIS Autolinee',
+          frequency: '3-4 avgångar/dag',
+          duration: '3 timmar',
+          price: '€12-15',
+          notes: 'Boka online för bästa pris'
+        },
+        {
+          route: 'Palermo - Agrigento',
+          operator: 'Autoservizi Cuffaro',
+          frequency: 'Var 2 timme',
+          duration: '2 timmar',
+          price: '€9-12',
+          notes: 'Stopp vid Templens dal på begäran'
+        },
+        {
+          route: 'Taormina - Mount Etna',
+          operator: 'AST',
+          frequency: '2 avgångar/dag (morgon)',
+          duration: '1.5 timmar',
+          price: '€6-8',
+          notes: 'Säsongsbetonat, kolla schema i förväg'
+        },
+      ],
+      boats: [
+        {
+          route: 'Milazzo - Eoliska öarna',
+          operator: 'Liberty Lines',
+          frequency: '8-12 avgångar/dag',
+          duration: '1-2 timmar beroende på ö',
+          price: '€15-25 enkelresa',
+          notes: 'Perfekt dagsutflykt från Sicilien'
+        },
+        {
+          route: 'Palermo - Ustica',
+          operator: 'Siremar',
+          frequency: 'Dagligen i sommarsäsong',
+          duration: '2.5 timmar',
+          price: '€20-30',
+          notes: 'Vacker ö för snorkling och dykning'
+        },
+        {
+          route: 'Trapani - Favignana',
+          operator: 'Liberty Lines',
+          frequency: 'Var 30-60 minuter',
+          duration: '30 minuter',
+          price: '€10-15',
+          notes: 'Populär ö-utflykt, cykelhyra finns'
+        },
+      ],
     },
     days: [
       {
         day: 'Dag 1',
-        title: 'Palermo – Gatumat & marknader',
+        title: 'Palermo - Gatukök & Marknader',
         activities: [
-          { time: 'Morgon', activity: 'Utforska Ballarò-marknaden, smaka arancini och panelle' },
+          { time: 'Förmiddag', activity: 'Utforska Ballarò-marknaden, smaka arancini och panelle' },
           { time: 'Eftermiddag', activity: 'Besök Palazzo dei Normanni och Cappella Palatina' },
-          { time: 'Kväll', activity: 'Solnedgångsaperitivt vid Quattro Canti' },
+          { time: 'Kväll', activity: 'Solnedgångs-aperitivo på Quattro Canti' },
         ],
       },
       {
         day: 'Dag 2',
-        title: 'Etna & vinprovning',
+        title: 'Vulkanen Etna & Vinprovning',
         activities: [
-          { time: 'Morgon', activity: 'Vandra bland Etnas vulkankratrar' },
-          { time: 'Eftermiddag', activity: 'Vinprovning på ett Etna DOC-vingård' },
-          { time: 'Kväll', activity: 'Middag i Taormina med utsikt mot Etna' },
+          { time: 'Förmiddag', activity: 'Vandra vid Etnas vulkankratrar' },
+          { time: 'Eftermiddag', activity: 'Vinprovning vid en Etna DOC vingård' },
+          { time: 'Kväll', activity: 'Middag i Taormina med utsikt över Etna' },
         ],
       },
       {
         day: 'Dag 3',
-        title: 'Taormina – Antikt teater & stränder',
+        title: 'Taormina - Antik Teater & Stränder',
         activities: [
-          { time: 'Morgon', activity: 'Besök Teatro Greco med storslagna kustvy' },
-          { time: 'Eftermiddag', activity: 'Stranddags vid Isola Bella' },
-          { time: 'Kväll', activity: 'Promenad längs Corso Umberto, gelatoprovning' },
+          { time: 'Förmiddag', activity: 'Besök Teatro Greco med fantastisk kustutsikt' },
+          { time: 'Eftermiddag', activity: 'Strandtid vid Isola Bella' },
+          { time: 'Kväll', activity: 'Promenera Corso Umberto, glass-provning' },
         ],
       },
       {
         day: 'Dag 4',
-        title: 'Tempeldalen, Agrigento',
+        title: 'Templens dal, Agrigento',
         activities: [
-          { time: 'Morgon', activity: 'Utforska UNESCO-listade antikgrekiska ruiner' },
-          { time: 'Eftermiddag', activity: 'Lunch i Agrigento med lokal skaldjur' },
+          { time: 'Förmiddag', activity: 'Utforska UNESCO:s antika grekiska ruiner' },
+          { time: 'Eftermiddag', activity: 'Lunch i Agrigento, lokal skaldjur' },
           { time: 'Kväll', activity: 'Solnedgång vid Scala dei Turchi vita klippor' },
         ],
       },
       {
         day: 'Dag 5',
-        title: 'Syrakusa & Ortigiaön',
+        title: 'Syracuse & Ön Ortigia',
         activities: [
-          { time: 'Morgon', activity: 'Arkeologiska parken Neapolis' },
-          { time: 'Eftermiddag', activity: 'Vandra i Ortigias barockgator' },
+          { time: 'Förmiddag', activity: 'Arkeologiska parken Neapolis' },
+          { time: 'Eftermiddag', activity: 'Vandra i Ortigias barocka gator' },
           { time: 'Kväll', activity: 'Färsk skaldjursmiddag vid hamnen' },
         ],
       },
       {
         day: 'Dag 6',
-        title: 'Modica & Ragusa – barockstäder',
+        title: 'Modica & Ragusa - Barocka Städer',
         activities: [
-          { time: 'Morgon', activity: 'Chokladprovningstur i Modica' },
+          { time: 'Förmiddag', activity: 'Chokladprovning i Modica' },
           { time: 'Eftermiddag', activity: 'Utforska Ragusa Iblas fantastiska arkitektur' },
           { time: 'Kväll', activity: 'Traditionell siciliansk middag på lokal osteria' },
         ],
       },
       {
         day: 'Dag 7',
-        title: 'Cefalù – avkoppling vid kusten',
+        title: 'Cefalù - Kustavkoppling',
         activities: [
-          { time: 'Morgon', activity: 'Stranddags vid Cefalùs gyllene sand' },
+          { time: 'Förmiddag', activity: 'Strandtid vid Cefalùs gyllene sand' },
           { time: 'Eftermiddag', activity: 'Besök den normandiska katedralen' },
           { time: 'Kväll', activity: 'Avskedsmiddag på en skaldjursrestaurang' },
         ],
@@ -671,26 +761,26 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
       {
         name: 'Ristorante Coria',
         location: 'Ortigia, Syracuse',
-        specialty: 'Modernt sicilianskt kök med havsutsikt',
-        cuisine: 'Modernt sicilianskt',
+        specialty: 'Modern sicilianskt med havsutsikt',
+        cuisine: 'Modern Sicilianskt',
         priceRange: '€€€',
-        why: 'Michelin-rekommenderat med nyskapande tolkningar av klassiska recept och fantastisk hamnvy'
+        why: 'Michelin-rekommenderad med innovativa tolkningar av klassiska recept och fantastisk hamnutsikt'
       },
       {
         name: 'Trattoria del Corso',
         location: 'Taormina',
         specialty: 'Traditionell pasta alla Norma',
-        cuisine: 'Traditionellt sicilianskt',
+        cuisine: 'Traditionellt Sicilianskt',
         priceRange: '€€',
-        why: 'Familjedriven i 40 år, lokalbefolkningen svär vid deras handgjorda pasta och auberginerätter'
+        why: 'Familjeägt i 40 år, lokalbefolkningen svär vid deras handgjorda pasta och auberginerätter'
       },
       {
         name: 'La Bettola',
         location: 'Cefalù',
-        specialty: 'Dagens fångst, direkt vid stranden',
+        specialty: 'Dagens färska fångst vid stranden',
         cuisine: 'Skaldjur',
         priceRange: '€€',
-        why: 'Bord på sanden, fisken köps direkt från fiskarna varje morgon'
+        why: 'Bord i sanden, fisk köpt direkt från fiskarna varje morgon'
       },
       {
         name: 'Antica Dolceria Bonajuto',
@@ -703,27 +793,27 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
       {
         name: 'Osteria Mercede',
         location: 'Palermo',
-        specialty: 'Gatumat lyft till ny nivå',
+        specialty: 'Upphöjd gatumat',
         cuisine: 'Gatumat',
         priceRange: '€',
-        why: 'Smaka Palermos berömda gatumat i en charmig miljö – bästa arancini i staden'
+        why: 'Smaka Palermos berömda gatumat i en charmig miljö - bästa arancini i staden'
       },
       {
         name: 'Trattoria da Nino',
         location: 'Etnas sluttningar',
-        specialty: 'Etnaviner med lokala rätter',
-        cuisine: 'Regionalt sicilianskt',
+        specialty: 'Etna-vinmatchningar med lokala rätter',
+        cuisine: 'Regional Sicilianskt',
         priceRange: '€€',
-        why: 'Familjens vingårdsrestaurang med vulkanjordsviner och råvaror från den egna trädgården'
+        why: 'Familjens vingårdsrestaurang med viner från vulkanisk jord och produkter från trädgården'
       },
     ],
     tips: [
-      'Hyr bil för frihet att utforska landsbygden',
-      'Lär dig grundläggande italienska hälsningsfraser – lokalbefolkningen uppskattar det',
-      'Packa lager – oktobermorgnar kan vara svala, eftermiddagarna varma',
+      'Hyr bil för flexibilitet att utforska landsbygden',
+      'Lär dig grundläggande italienska hälsningsfraser - lokalbefolkningen uppskattar ansträngningen',
+      'Packa lager på lager - oktobermorgnar kan vara svala, eftermiddagar varma',
       'Boka Etna-turer i förväg, väderberoende',
-      'Många restauranger stänger 15–17 (siesta)',
-      'Kontanter är kung i mindre städer och på marknader',
+      'Många restauranger stänger 15-17 (siesta)',
+      'Kontanter är kung i mindre städer och marknader',
     ],
   };
 
@@ -736,7 +826,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
           alt={destination.name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--ocean-blue)]/60 via-transparent to-transparent" />
 
         {/* Back button overlay */}
         <div className="absolute top-6 left-6">
@@ -744,7 +834,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
             onClick={onBack}
             className="p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-colors"
           >
-            <ArrowLeft className="w-6 h-6 text-[var(--navy)]" />
+            <ArrowLeft className="w-6 h-6 text-[var(--ocean-blue)]" />
           </button>
         </div>
 
@@ -766,6 +856,8 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
             { value: 'overview', label: 'Översikt' },
             { value: 'days', label: 'Dag för dag' },
             { value: 'eat', label: 'Mat & dryck' },
+            { value: 'transport', label: 'Transport' },
+            { value: 'weather', label: 'Väder' },
             { value: 'tips', label: 'Bra att veta' },
           ].map((tab) => (
             <button
@@ -773,13 +865,13 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
               onClick={() => setActiveTab(tab.value as typeof activeTab)}
               className={`flex-1 min-w-[120px] py-4 px-4 font-medium transition-colors relative ${
                 activeTab === tab.value
-                  ? 'text-[var(--terracotta)]'
-                  : 'text-[var(--navy)]/50 hover:text-[var(--navy)]'
+                  ? 'text-[var(--coral)]'
+                  : 'text-[var(--ocean-blue)]/50 hover:text-[var(--ocean-blue)]'
               }`}
             >
               {tab.label}
               {activeTab === tab.value && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--terracotta)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--coral)]" />
               )}
             </button>
           ))}
@@ -793,62 +885,109 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
             <div className="space-y-6 animate-fade-in">
               <div className="bg-white rounded-2xl p-6 shadow-sm">
                 <h3
-                  className="text-2xl text-[var(--navy)] mb-3"
+                  className="text-2xl text-[var(--ocean-blue)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
                   Varför Sicilien?
                 </h3>
-                <p className="text-[var(--navy)]/70 leading-relaxed">{destination.overview.why}</p>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.overview.why}</p>
               </div>
 
               <div className="bg-white rounded-2xl p-6 shadow-sm">
                 <h3
-                  className="text-2xl text-[var(--navy)] mb-3"
+                  className="text-2xl text-[var(--ocean-blue)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
                   Väder i oktober
                 </h3>
-                <p className="text-[var(--navy)]/70 leading-relaxed">{destination.overview.bestTime}</p>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.overview.bestTime}</p>
               </div>
 
               <div className="bg-white rounded-2xl p-6 shadow-sm">
                 <h3
-                  className="text-2xl text-[var(--navy)] mb-3"
+                  className="text-2xl text-[var(--ocean-blue)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Stämningen
+                  Känslan
                 </h3>
-                <p className="text-[var(--navy)]/70 leading-relaxed">{destination.overview.vibe}</p>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.overview.vibe}</p>
               </div>
 
-              <div className="bg-[var(--sand-light)] rounded-2xl p-6 shadow-sm border-l-4 border-[var(--terracotta)]">
+              {/* Bildgalleri */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
                 <h3
-                  className="text-2xl text-[var(--navy)] mb-3"
+                  className="text-2xl text-[var(--ocean-blue)] mb-4"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Ta sig dit
+                  Upptäck Sicilien
                 </h3>
-                <p className="text-[var(--navy)]/70 leading-relaxed">{destination.travel.gettingThere}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="col-span-2 rounded-xl overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1676943602552-3a8fe0ea3ff7?w=800&q=80"
+                      alt="Taormina med Etna i bakgrunden"
+                      className="w-full h-64 object-cover"
+                    />
+                  </div>
+                  <div className="rounded-xl overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1727951234414-2c463cc4fd58?w=400&q=80"
+                      alt="Vulkanen Etna"
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                  <div className="rounded-xl overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1708526499790-bf63c35d9622?w=400&q=80"
+                      alt="Siciliensk strand"
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                  <div className="rounded-xl overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1761770318955-6e721b963c3b?w=400&q=80"
+                      alt="Kuststad vid havet"
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                  <div className="rounded-xl overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1676943602355-5cd6a4e573c0?w=400&q=80"
+                      alt="Utsikt över staden och havet"
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="bg-[var(--sand-light)] rounded-2xl p-6 shadow-sm border-l-4 border-[var(--olive)]">
+              <div className="bg-[var(--sunny-yellow-light)] rounded-2xl p-6 shadow-sm border-l-4 border-[var(--coral)]">
                 <h3
-                  className="text-2xl text-[var(--navy)] mb-3"
+                  className="text-2xl text-[var(--ocean-blue)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Ta sig runt
+                  Ta dig dit
                 </h3>
-                <p className="text-[var(--navy)]/70 leading-relaxed">{destination.travel.gettingAround}</p>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.travel.gettingThere}</p>
               </div>
 
-              <div className="bg-[var(--sand-light)] rounded-2xl p-6 shadow-sm border-l-4 border-[var(--terracotta)]">
+              <div className="bg-[var(--sunny-yellow-light)] rounded-2xl p-6 shadow-sm border-l-4 border-[var(--fresh-green)]">
                 <h3
-                  className="text-2xl text-[var(--navy)] mb-3"
+                  className="text-2xl text-[var(--ocean-blue)] mb-3"
+                  style={{ fontFamily: 'var(--font-serif)' }}
+                >
+                  Ta dig runt
+                </h3>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.travel.gettingAround}</p>
+              </div>
+
+              <div className="bg-[var(--sunny-yellow-light)] rounded-2xl p-6 shadow-sm border-l-4 border-[var(--coral)]">
+                <h3
+                  className="text-2xl text-[var(--ocean-blue)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
                   Föreslagen rutt
                 </h3>
-                <p className="text-[var(--navy)]/70 leading-relaxed">{destination.travel.bestRoutes}</p>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.travel.bestRoutes}</p>
               </div>
             </div>
           )}
@@ -856,10 +995,10 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
           {activeTab === 'days' && (
             <div className="space-y-4 animate-fade-in">
               <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
-                <p className="text-[var(--navy)]/70 leading-relaxed">
-                  Det här 7-dagarsprogrammet balanserar sevärdheter med avkoppling och blandar antika ruiner,
-                  kustsamhällen, vulkaniska landskap och autentiska matupplevelser. Varje dag erbjuder
-                  morgnaktiviteter, eftermiddagsutflykter och kvällsmatsrekommendationer.
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">
+                  Detta 7-dagars program balanserar sevärdheter med avkoppling, blandar antika ruiner,
+                  kuststäder, vulkaniska landskap och autentiska matupplevelser. Varje dag erbjuder
+                  förmiddagsaktiviteter, eftermiddagsutflykter och kvällsmatsrekommendationer.
                 </p>
               </div>
               {destination.days.map((day, i) => (
@@ -869,13 +1008,13 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   style={{ animationDelay: `${i * 50}ms` }}
                 >
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--sand)] flex items-center justify-center">
-                      <span className="text-[var(--terracotta)] font-medium">{i + 1}</span>
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--sunny-yellow)] flex items-center justify-center">
+                      <span className="text-[var(--coral)] font-medium">{i + 1}</span>
                     </div>
                     <div className="flex-1">
-                      <span className="text-sm font-medium text-[var(--terracotta)] block mb-1">{day.day}</span>
+                      <span className="text-sm font-medium text-[var(--coral)] block mb-1">{day.day}</span>
                       <h3
-                        className="text-xl text-[var(--navy)]"
+                        className="text-xl text-[var(--ocean-blue)]"
                         style={{ fontFamily: 'var(--font-serif)' }}
                       >
                         {day.title}
@@ -885,10 +1024,10 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   <div className="space-y-3 ml-13">
                     {day.activities.map((act, j) => (
                       <div key={j} className="flex gap-4 items-start">
-                        <span className="text-sm font-medium text-[var(--olive)] min-w-[80px] pt-0.5">
+                        <span className="text-sm font-medium text-[var(--fresh-green)] min-w-[80px] pt-0.5">
                           {act.time}
                         </span>
-                        <p className="text-[var(--navy)]/70 flex-1">{act.activity}</p>
+                        <p className="text-[var(--ocean-blue)]/70 flex-1">{act.activity}</p>
                       </div>
                     ))}
                   </div>
@@ -900,9 +1039,9 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
           {activeTab === 'eat' && (
             <div className="space-y-4 animate-fade-in">
               <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
-                <p className="text-[var(--navy)]/70 leading-relaxed">
-                  Det sicilianska köket är en fest av öns mångfacetterade arv. Förvänta dig kraftfulla smaker,
-                  färska skaldjur, solmogna råvaror och rätter som blandar arabiska, grekiska och italienska influenser.
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed">
+                  Det sicilianska köket är en hyllning till öns mångfaldiga arv. Förvänta dig djärva smaker,
+                  färska skaldjur, solmognade råvaror och rätter som blandar arabiska, grekiska och italienska influenser.
                   Missa inte gatumaten i Palermo och den unika chokladen i Modica.
                 </p>
               </div>
@@ -914,29 +1053,208 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                 >
                   <div className="flex items-start justify-between mb-3">
                     <h3
-                      className="text-xl text-[var(--navy)]"
+                      className="text-xl text-[var(--ocean-blue)]"
                       style={{ fontFamily: 'var(--font-serif)' }}
                     >
                       {rest.name}
                     </h3>
-                    <span className="text-[var(--terracotta)] font-medium">{rest.priceRange}</span>
+                    <span className="text-[var(--coral)] font-medium">{rest.priceRange}</span>
                   </div>
 
                   <div className="flex items-center gap-2 mb-3">
-                    <MapPin className="w-4 h-4 text-[var(--olive)]" />
-                    <p className="text-sm text-[var(--olive)]">{rest.location}</p>
+                    <MapPin className="w-4 h-4 text-[var(--fresh-green)]" />
+                    <p className="text-sm text-[var(--fresh-green)]">{rest.location}</p>
                   </div>
 
                   <div className="mb-3">
-                    <span className="inline-block px-3 py-1 bg-[var(--sand)] text-[var(--navy)] text-xs rounded-full">
+                    <span className="inline-block px-3 py-1 bg-[var(--sunny-yellow)] text-[var(--ocean-blue)] text-xs rounded-full">
                       {rest.cuisine}
                     </span>
                   </div>
 
-                  <p className="text-[var(--navy)] font-medium mb-2">{rest.specialty}</p>
-                  <p className="text-[var(--navy)]/60 text-sm italic">{rest.why}</p>
+                  <p className="text-[var(--ocean-blue)] font-medium mb-2">{rest.specialty}</p>
+                  <p className="text-[var(--ocean-blue)]/60 text-sm italic">{rest.why}</p>
                 </div>
               ))}
+            </div>
+          )}
+
+          {activeTab === 'transport' && (
+            <div className="space-y-6 animate-fade-in">
+              {/* Tåg */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Train className="w-6 h-6 text-[var(--coral)]" />
+                  <h3
+                    className="text-2xl text-[var(--ocean-blue)]"
+                    style={{ fontFamily: 'var(--font-serif)' }}
+                  >
+                    Tågtidtabeller
+                  </h3>
+                </div>
+                <div className="space-y-3">
+                  {destination.transport.trains.map((train, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
+                      style={{ animationDelay: `${i * 50}ms` }}
+                    >
+                      <div className="flex justify-between items-start mb-3">
+                        <h4 className="font-medium text-[var(--ocean-blue)] text-lg">{train.route}</h4>
+                        <span className="text-[var(--coral)] font-medium">{train.price}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 text-sm mb-2">
+                        <div className="flex items-center gap-2 text-[var(--ocean-blue)]/70">
+                          <Clock className="w-4 h-4" />
+                          <span>{train.frequency}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[var(--ocean-blue)]/70">
+                          <Calendar className="w-4 h-4" />
+                          <span>{train.duration}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-[var(--ocean-blue)]/60 italic">{train.notes}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bussar */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Bus className="w-6 h-6 text-[var(--fresh-green)]" />
+                  <h3
+                    className="text-2xl text-[var(--ocean-blue)]"
+                    style={{ fontFamily: 'var(--font-serif)' }}
+                  >
+                    Busstidtabeller
+                  </h3>
+                </div>
+                <div className="space-y-3">
+                  {destination.transport.buses.map((bus, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
+                      style={{ animationDelay: `${i * 50}ms` }}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium text-[var(--ocean-blue)] text-lg">{bus.route}</h4>
+                        <span className="text-[var(--fresh-green)] font-medium">{bus.price}</span>
+                      </div>
+                      <p className="text-sm text-[var(--ocean-blue)]/50 mb-3">{bus.operator}</p>
+                      <div className="grid grid-cols-2 gap-3 text-sm mb-2">
+                        <div className="flex items-center gap-2 text-[var(--ocean-blue)]/70">
+                          <Clock className="w-4 h-4" />
+                          <span>{bus.frequency}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[var(--ocean-blue)]/70">
+                          <Calendar className="w-4 h-4" />
+                          <span>{bus.duration}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-[var(--ocean-blue)]/60 italic">{bus.notes}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Båtturer */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Ship className="w-6 h-6 text-[var(--ocean-blue)]" />
+                  <h3
+                    className="text-2xl text-[var(--ocean-blue)]"
+                    style={{ fontFamily: 'var(--font-serif)' }}
+                  >
+                    Båtturer & Färjor
+                  </h3>
+                </div>
+                <div className="space-y-3">
+                  {destination.transport.boats.map((boat, i) => (
+                    <div
+                      key={i}
+                      className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
+                      style={{ animationDelay: `${i * 50}ms` }}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium text-[var(--ocean-blue)] text-lg">{boat.route}</h4>
+                        <span className="text-[var(--ocean-blue)] font-medium">{boat.price}</span>
+                      </div>
+                      <p className="text-sm text-[var(--ocean-blue)]/50 mb-3">{boat.operator}</p>
+                      <div className="grid grid-cols-2 gap-3 text-sm mb-2">
+                        <div className="flex items-center gap-2 text-[var(--ocean-blue)]/70">
+                          <Clock className="w-4 h-4" />
+                          <span>{boat.frequency}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[var(--ocean-blue)]/70">
+                          <Calendar className="w-4 h-4" />
+                          <span>{boat.duration}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-[var(--ocean-blue)]/60 italic">{boat.notes}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'weather' && (
+            <div className="space-y-4 animate-fade-in">
+              <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-6 shadow-sm">
+                <div className="flex items-center gap-2 mb-4">
+                  <Sun className="w-6 h-6 text-[var(--coral)]" />
+                  <h3
+                    className="text-2xl text-[var(--ocean-blue)]"
+                    style={{ fontFamily: 'var(--font-serif)' }}
+                  >
+                    Väder i oktober
+                  </h3>
+                </div>
+                <p className="text-[var(--ocean-blue)]/70 leading-relaxed mb-4">
+                  Oktober är en fantastisk tid att besöka Sicilien. Vädret är varmt och behagligt utan sommarens extrema värme,
+                  och Medelhavet är fortfarande varmt nog för bad.
+                </p>
+              </div>
+
+              <div className="grid gap-4">
+                <div className="bg-white rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Thermometer className="w-5 h-5 text-[var(--coral)]" />
+                    <h4 className="font-medium text-[var(--ocean-blue)]">Temperatur</h4>
+                  </div>
+                  <p className="text-[var(--ocean-blue)]/70">{destination.weather.temperature}</p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-center gap-3 mb-2">
+                    <CloudRain className="w-5 h-5 text-[var(--fresh-green)]" />
+                    <h4 className="font-medium text-[var(--ocean-blue)]">Nederbörd</h4>
+                  </div>
+                  <p className="text-[var(--ocean-blue)]/70">{destination.weather.rainfall}</p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Sun className="w-5 h-5 text-yellow-500" />
+                    <h4 className="font-medium text-[var(--ocean-blue)]">Soltimmar</h4>
+                  </div>
+                  <p className="text-[var(--ocean-blue)]/70">{destination.weather.sunshine}</p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Waves className="w-5 h-5 text-[var(--ocean-blue)]" />
+                    <h4 className="font-medium text-[var(--ocean-blue)]">Havstemperatur</h4>
+                  </div>
+                  <p className="text-[var(--ocean-blue)]/70">{destination.weather.seaTemp}</p>
+                </div>
+
+                <div className="bg-[var(--sunny-yellow-light)] rounded-2xl p-5 shadow-sm border-l-4 border-[var(--coral)]">
+                  <h4 className="font-medium text-[var(--ocean-blue)] mb-2">Vad ska jag packa?</h4>
+                  <p className="text-[var(--ocean-blue)]/70">{destination.weather.clothing}</p>
+                </div>
+              </div>
             </div>
           )}
 
@@ -948,8 +1266,8 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="bg-white rounded-2xl p-5 shadow-sm flex items-start gap-3"
                   style={{ animationDelay: `${i * 50}ms` }}
                 >
-                  <div className="w-2 h-2 rounded-full bg-[var(--terracotta)] mt-2 flex-shrink-0" />
-                  <p className="text-[var(--navy)]/70">{tip}</p>
+                  <div className="w-2 h-2 rounded-full bg-[var(--coral)] mt-2 flex-shrink-0" />
+                  <p className="text-[var(--ocean-blue)]/70">{tip}</p>
                 </div>
               ))}
             </div>
@@ -962,14 +1280,14 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
         <div className="max-w-3xl mx-auto flex gap-3">
           <button
             onClick={onChangeDestination}
-            className="flex-1 py-3 px-6 rounded-full border-2 border-[var(--terracotta)] text-[var(--terracotta)] font-medium hover:bg-[var(--terracotta)]/5 transition-colors"
+            className="flex-1 py-3 px-6 rounded-full border-2 border-[var(--coral)] text-[var(--coral)] font-medium hover:bg-[var(--coral)]/5 transition-colors"
           >
             Se andra resmål
           </button>
           <button
-            className="flex-1 py-3 px-6 rounded-full bg-[var(--terracotta)] text-white font-medium hover:bg-[var(--terracotta-light)] transition-colors shadow-lg"
+            className="flex-1 py-3 px-6 rounded-full bg-[var(--coral)] text-white font-medium hover:bg-[var(--coral-light)] transition-colors shadow-lg"
           >
-            Spara denna resa
+            Spara resan
           </button>
         </div>
       </div>

@@ -8,10 +8,10 @@ export function BackButton({ onClick }: BackButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="p-2 -ml-2 rounded-full hover:bg-[var(--sand)] transition-colors duration-200"
-      aria-label="Gå tillbaka"
+      className="p-2 -ml-2 rounded-full hover:bg-[var(--sunny-yellow-light)] transition-colors duration-200"
+      aria-label="Go back"
     >
-      <ArrowLeft className="w-6 h-6 text-[var(--navy)]" />
+      <ArrowLeft className="w-6 h-6 text-[var(--ocean-blue)]" />
     </button>
   );
 }

@@ -11,10 +11,10 @@ export function ProgressDots({ total, current }: ProgressDotsProps) {
           key={i}
           className={`h-1.5 rounded-full transition-all duration-300 ${
             i === current
-              ? 'w-8 bg-[var(--terracotta)]'
+              ? 'w-8 bg-[var(--coral)]'
               : i < current
-              ? 'w-1.5 bg-[var(--olive)]'
-              : 'w-1.5 bg-[var(--sand)]'
+              ? 'w-1.5 bg-[var(--fresh-green)]'
+              : 'w-1.5 bg-[var(--sunny-yellow)]'
           }`}
         />
       ))}

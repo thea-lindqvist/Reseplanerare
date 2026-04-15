@@ -15,8 +15,8 @@ export function ChoiceCard({ icon, title, description, selected, onClick, delay 
       onClick={onClick}
       className={`w-full p-5 rounded-2xl text-left transition-all duration-300 animate-fade-in ${
         selected
-          ? 'bg-[var(--terracotta)] text-white shadow-lg scale-[1.02]'
-          : 'bg-white text-[var(--navy)] shadow-sm hover:shadow-md hover:scale-[1.01]'
+          ? 'bg-[var(--coral)] text-white shadow-lg scale-[1.02]'
+          : 'bg-white text-[var(--ocean-blue)] shadow-sm hover:shadow-md hover:scale-[1.01]'
       }`}
       style={{ animationDelay: `${delay}ms` }}
     >
@@ -27,11 +27,11 @@ export function ChoiceCard({ icon, title, description, selected, onClick, delay 
           </div>
         )}
         <div className="flex-1">
-          <div className={`font-medium mb-0.5 ${selected ? 'text-white' : 'text-[var(--navy)]'}`}>
+          <div className={`font-medium mb-0.5 ${selected ? 'text-white' : 'text-[var(--ocean-blue)]'}`}>
             {title}
           </div>
           {description && (
-            <div className={`text-sm ${selected ? 'text-white/90' : 'text-[var(--navy)]/60'}`}>
+            <div className={`text-sm ${selected ? 'text-white/90' : 'text-[var(--ocean-blue)]/60'}`}>
               {description}
             </div>
           )}
