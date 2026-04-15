@@ -110,11 +110,11 @@ export default function App() {
           >
             <div className="space-y-3">
               {[
-                { value: 'solo' as TravellerType, icon: <User />, title: 'Solo', description: 'Bara jag' },
-                { value: 'couple' as TravellerType, icon: <Heart />, title: 'Par', description: 'Vi två' },
-                { value: 'friends' as TravellerType, icon: <Users />, title: 'Vänner', description: 'En grupp kompisar' },
-                { value: 'family' as TravellerType, icon: <Baby />, title: 'Familj med barn', description: 'Reser med barn' },
-                { value: 'multi-gen' as TravellerType, icon: <Users />, title: 'Flera generationer', description: 'Hela familjen' },
+                { value: 'solo' as TravellerType, icon: <User />, title: 'Lone Wolf', description: 'Bara jag – ingen att dela äran med' },
+                { value: 'couple' as TravellerType, icon: <Heart />, title: 'Dynamisk duo', description: 'Vi två mot världen' },
+                { value: 'friends' as TravellerType, icon: <Users />, title: 'Hela laget', description: 'Fler krafter, mer kaos' },
+                { value: 'family' as TravellerType, icon: <Baby />, title: 'Familjen', description: 'Reser med barn – nästa generation tränas upp' },
+                { value: 'multi-gen' as TravellerType, icon: <Users />, title: 'Storfamiljen', description: 'Alla generationer samlade' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -143,7 +143,7 @@ export default function App() {
         return (
           <QuestionScreen
             title="Hur gamla är barnen?"
-            subtitle="Det hjälper oss föreslå familjevänliga aktiviteter"
+            subtitle="Hjälper oss föreslå rätt aktiviteter för hela laget"
             currentStep={screenToStep.ages}
             totalSteps={totalSteps}
             onBack={goBack}
@@ -152,10 +152,10 @@ export default function App() {
               <div className="bg-white p-6 rounded-2xl shadow-sm">
                 <p className="text-[var(--ocean-blue)]/60 text-sm mb-4">Välj åldrar som passar</p>
                 {[
-                  { label: 'Under 3 år', value: 0 },
-                  { label: '3-7 år', value: 1 },
-                  { label: '8-12 år', value: 2 },
-                  { label: '13+ år', value: 3 },
+                  { label: 'Under 3 år  🍼 Sidekick-nivå', value: 0 },
+                  { label: '3–7 år  ⚡ Övermänsklig energi, noll filter', value: 1 },
+                  { label: '8–12 år  🌀 Krafter håller på att vakna', value: 2 },
+                  { label: '13+ år  😎 Tror sig redan vara huvudhjälten', value: 3 },
                 ].map((age, i) => (
                   <label key={i} className="flex items-center gap-3 py-3 cursor-pointer">
                     <input
@@ -215,10 +215,10 @@ export default function App() {
                 <p className="text-sm text-[var(--ocean-blue)]/60 mb-3">Hur länge?</p>
                 <div className="space-y-3">
                   {[
-                    { value: 'weekend' as Duration, title: 'Weekendresa', description: '2-3 dagar' },
-                    { value: '1-week' as Duration, title: 'En vecka', description: '5-7 dagar' },
-                    { value: '2-weeks' as Duration, title: 'Två veckor', description: '10-14 dagar' },
-                    { value: 'longer' as Duration, title: 'Längre äventyr', description: '2+ veckor' },
+                    { value: 'weekend' as Duration, title: 'Snabbinsats', description: '2–3 dagar – slå till och försvinn' },
+                    { value: '1-week' as Duration, title: 'En vecka', description: '5–7 dagar – tid att rädda världen ordentligt' },
+                    { value: '2-weeks' as Duration, title: 'Två veckor', description: '10–14 dagar – riktigt hjälteformat' },
+                    { value: 'longer' as Duration, title: 'Längre äventyr', description: '2+ veckor – ingen vet när det tar slut' },
                   ].map((option, i) => (
                     <ChoiceCard
                       key={option.value}
@@ -246,7 +246,7 @@ export default function App() {
         return (
           <QuestionScreen
             title="Vad är du sugen på?"
-            subtitle="Välj så många du vill"
+            subtitle="Välj din superkraft – eller flera"
             currentStep={screenToStep.mood}
             totalSteps={totalSteps}
             onBack={goBack}
@@ -254,18 +254,19 @@ export default function App() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: 'beach' as Mood, icon: <Waves />, title: 'Sol & bad' },
-                  { value: 'city' as Mood, icon: <Building2 />, title: 'Stad & kultur' },
-                  { value: 'food' as Mood, icon: <UtensilsCrossed />, title: 'Mat & vin' },
-                  { value: 'nature' as Mood, icon: <Mountain />, title: 'Natur & vandring' },
-                  { value: 'adventure' as Mood, icon: <Compass />, title: 'Äventyr' },
-                  { value: 'wellness' as Mood, icon: <Sparkles />, title: 'Avkoppling' },
-                  { value: 'offbeat' as Mood, icon: <MapPin />, title: 'Utanför turiststråken' },
+                  { value: 'beach' as Mood, icon: <Waves />, title: 'Sol & strand', description: 'Solabsorption' },
+                  { value: 'city' as Mood, icon: <Building2 />, title: 'Stad & kultur', description: 'Metropolsinne' },
+                  { value: 'food' as Mood, icon: <UtensilsCrossed />, title: 'Mat & vin', description: 'Kulinarisk alkemi' },
+                  { value: 'nature' as Mood, icon: <Mountain />, title: 'Natur & vandring', description: 'Terrakinesis' },
+                  { value: 'adventure' as Mood, icon: <Compass />, title: 'Äventyr', description: 'Adrenalinmanipulation' },
+                  { value: 'wellness' as Mood, icon: <Sparkles />, title: 'Avkoppling', description: 'Regenerationskraft' },
+                  { value: 'offbeat' as Mood, icon: <MapPin />, title: 'Bortom turiststråken', description: 'Osynlighetsförmåga' },
                 ].map((option, i) => (
                   <ChoiceCard
                     key={option.value}
                     icon={option.icon}
                     title={option.title}
+                    description={option.description}
                     selected={tripData.moods.includes(option.value)}
                     onClick={() => {
                       setTripData({
@@ -292,17 +293,17 @@ export default function App() {
       case 'budget':
         return (
           <QuestionScreen
-            title="Vad har du för budget?"
+            title="Vad är din budget?"
             currentStep={screenToStep.budget}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-3">
               {[
-                { value: 'budget' as Budget, icon: <DollarSign />, title: 'Budgetvänligt', description: 'Bra värde utan kompromisser' },
-                { value: 'comfortable' as Budget, icon: <DollarSign />, title: 'Bekvämt', description: 'Fina hotell och restauranger' },
-                { value: 'treat' as Budget, icon: <DollarSign />, title: 'Skäm bort dig', description: 'Exklusivt och minnesvärt' },
-                { value: 'luxury' as Budget, icon: <DollarSign />, title: 'Inga begränsningar', description: 'De allra bästa upplevelserna' },
+                { value: 'budget' as Budget, icon: <DollarSign />, title: 'Budgetvänlig', description: 'Bra värde – allt du behöver, inget du inte behöver' },
+                { value: 'comfortable' as Budget, icon: <DollarSign />, title: 'Bekväm', description: 'Fina hotell och restauranger' },
+                { value: 'treat' as Budget, icon: <DollarSign />, title: 'Unna dig', description: 'Exklusivt och minnesvärt' },
+                { value: 'luxury' as Budget, icon: <DollarSign />, title: 'Inga gränser', description: 'Pengarna är inte problemet. De är aldrig problemet.' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -331,10 +332,10 @@ export default function App() {
           >
             <div className="space-y-3">
               {[
-                { value: 'nearby' as Distance, icon: <MapPin />, title: 'Närområdet', description: 'Kort flygresa eller biltur' },
-                { value: 'europe' as Distance, icon: <Plane />, title: 'Inom Europa', description: '2-4 timmars flyg' },
-                { value: 'long-haul' as Distance, icon: <Plane />, title: 'Långresa', description: '6+ timmars flyg' },
-                { value: 'anywhere' as Distance, icon: <Compass />, title: 'Var som helst', description: 'Avståndet spelar ingen roll' },
+                { value: 'nearby' as Distance, icon: <MapPin />, title: 'Nära', description: 'Kort flyg eller bilresa' },
+                { value: 'europe' as Distance, icon: <Plane />, title: 'Inom Europa', description: '2–4 timmars flyg' },
+                { value: 'long-haul' as Distance, icon: <Plane />, title: 'Långdistans', description: '6+ timmars flyg – dit de flesta inte tar sig' },
+                { value: 'anywhere' as Distance, icon: <Compass />, title: 'Varsomhelst', description: 'Avståndet spelar ingen roll' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -398,19 +399,20 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
 
       <div className="max-w-md w-full text-center space-y-8 animate-fade-in relative z-10">
         <div className="space-y-4">
+          <p className="text-xs font-semibold tracking-widest text-[var(--coral)] uppercase mb-3">⚡ Hero Travel</p>
           <h1
             className="text-6xl md:text-7xl text-[var(--ocean-blue)] leading-tight"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Hitta din nästa resa
+            Din kraft. Din destination.
           </h1>
           <p className="text-lg text-[var(--ocean-blue)]/70">
-            Svara på några frågor så planerar vi den perfekta resan
+            Svara på några frågor och vi hittar ditt nästa resmål.
           </p>
         </div>
 
         <div className="pt-4">
-          <PrimaryButton onClick={onStart}>Börja planera</PrimaryButton>
+          <PrimaryButton onClick={onStart}>Aktivera min kraft</PrimaryButton>
         </div>
       </div>
     </div>
@@ -478,10 +480,10 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             className="text-3xl text-[var(--ocean-blue)]"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Hittar din perfekta resa...
+            Söker din perfekta resa...
           </h3>
           <p className="text-[var(--ocean-blue)]/60">
-            Letar bland fantastiska resmål
+            Matchar dina krafter mot resmålen
           </p>
         </div>
       </div>
@@ -494,19 +496,19 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
   const destinations = [
     {
       name: 'Sicilien, Italien',
-      tagline: 'Perfekt för höstsol, matälskare och par',
+      tagline: 'Perfekt för Kulinarisk alkemi + Solabsorption. Hög smakintensitet.',
       tags: ['Medelhavskök', 'Antik historia', 'Kuststäder'],
       image: 'https://images.unsplash.com/photo-1676943602552-3a8fe0ea3ff7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     },
     {
       name: 'Grekiska öarna',
-      tagline: 'Ö-hopping-paradis med fantastiska stränder',
+      tagline: 'Perfekt för Solabsorption-klassen. Varning: starkt beroendeframkallande.',
       tags: ['Strandliv', 'Färsk skaldjur', 'Vitkalkade byar'],
       image: 'https://images.unsplash.com/photo-1775480980898-e847f65ed2f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     },
     {
       name: 'Provence, Frankrike',
-      tagline: 'Lavendelfält och vinkulturens charm',
+      tagline: 'Aktiverar Kulinarisk alkemi och Terrakinesis på en gång. Sällsynt kombination.',
       tags: ['Vinprovning', 'Landsbygd', 'Lokala marknader'],
       image: 'https://images.unsplash.com/photo-1729804913360-d14ee7c1be6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     },
@@ -521,14 +523,15 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
       <div className="flex-1 px-6 pb-6">
         <div className="max-w-lg mx-auto space-y-6">
           <div className="space-y-2 animate-fade-in">
+            <p className="text-xs font-semibold tracking-widest text-[var(--coral)] uppercase">⚡ Redo för avfärd</p>
             <h2
               className="text-4xl text-[var(--ocean-blue)] leading-tight"
               style={{ fontFamily: 'var(--font-serif)' }}
             >
-              Vi hittade dessa för dig
+              Vi hittade tre resmål för dig
             </h2>
             <p className="text-[var(--ocean-blue)]/60">
-              Tryck på ett resmål för personliga förslag på vad du kan göra, hur du reser dit och var du ska äta
+              Tryck på ett resmål för att se vad du kan göra, var du äter och hur du tar dig dit
             </p>
           </div>
 
@@ -578,7 +581,7 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
                     </span>
                     <span className="flex items-center gap-1">
                       <Plane className="w-3.5 h-3.5" />
-                      Resetips
+                      Resesätt
                     </span>
                   </div>
                 </div>
@@ -599,9 +602,9 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
     name: 'Sicilien, Italien',
     hero: 'https://images.unsplash.com/photo-1676943602552-3a8fe0ea3ff7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200',
     overview: {
-      why: "Sicilien i oktober erbjuder den perfekta blandningen av varmt medelhavsväder, skördesäsongens överflöd och färre turister. Öns rika mosaik av grekiska, romerska, arabiska och normandiska influenser skapar en oförglömlig kulturupplevelse.",
-      bestTime: 'Oktober är idealiskt - varma dagar (21-24°C), sköna kvällar, druv- och olivskördens säsong',
-      vibe: 'Avslappnad ötakt med passionerad lokal kultur, fantastisk matscen och dramatiska landskap från Etna till antika ruiner',
+      why: "Oktober är sötspotet – varmt medelhavsklimat, skördesäsongens rikedomar och inga turistmassor. Kulinarisk alkemi och Solabsorption aktiveras på hög nivå. Öns rika historia av grekiska, romerska, arabiska och normandiska influenser gör varje hörn till en upplevelse.",
+      bestTime: 'Varma dagar (21–24°C), behagliga kvällar, druv- och olivskörd. Solabsorptionskrafter laddas optimalt.',
+      vibe: 'Avslappnat öltempo med passionerad lokalbefolkning, dramatiska landskap och en matkultur som är lite magisk – från Etna till antika ruiner.',
     },
     weather: {
       temperature: '21-24°C dagtid, 15-18°C nattetid',
@@ -808,12 +811,12 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
       },
     ],
     tips: [
-      'Hyr bil för flexibilitet att utforska landsbygden',
-      'Lär dig grundläggande italienska hälsningsfraser - lokalbefolkningen uppskattar ansträngningen',
-      'Packa lager på lager - oktobermorgnar kan vara svala, eftermiddagar varma',
-      'Boka Etna-turer i förväg, väderberoende',
-      'Många restauranger stänger 15-17 (siesta)',
-      'Kontanter är kung i mindre städer och marknader',
+      'Boka bil tidigt – bilar tar slut snabbt under högsäsong. Din Lone Wolf-instinkt att vänta sista minuten funkar inte här.',
+      '"Grazie", "per favore" och ett leende öppnar fler dörrar än vilken superkraft som helst utanför turiststråken.',
+      'Packa lager på lager – oktobermorgnar kan vara svala, eftermiddagarna varma.',
+      'Ta guide till Etna – vädret kan ändras snabbt och höga partier kräver utrustning. Även hjältar behöver backup.',
+      'Lunchpausen är helig – butiker och museer stänger 13–16. Planera sightseeing på förmiddagen och kvällarna.',
+      'Ha alltid kontanter – många restauranger och marknader på landsbygden tar bara cash.',
     ],
   };
 
@@ -908,7 +911,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--ocean-blue)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Känslan
+                  Stämningen
                 </h3>
                 <p className="text-[var(--ocean-blue)]/70 leading-relaxed">{destination.overview.vibe}</p>
               </div>

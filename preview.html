@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HERO TRAVEL – Förhandsgranskning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #C96A56;
+    --terracotta-light: #D88773;
+    --olive: #8B956D;
+    --olive-light: #A4AE8A;
+    --sand: #E8DCC8;
+    --sand-light: #F0E8D9;
+    --off-white: #FAF8F5;
+    --navy: #1A2B3D;
+    --navy-light: #2D4459;
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: 'Outfit', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--off-white);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+  .screen { display: none; min-height: 100vh; flex-direction: column; }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
+  /* Welcome */
+  #welcome {
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  #welcome::before {
+    content: '';
+    position: absolute;
+    top: 80px; right: 40px;
+    width: 128px; height: 128px;
+    background: var(--sand);
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(40px);
+  }
+  #welcome::after {
+    content: '';
+    position: absolute;
+    bottom: 128px; left: 40px;
+    width: 160px; height: 160px;
+    background: var(--olive);
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(40px);
+  }
+  .welcome-content {
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .welcome-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: var(--navy);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .welcome-sub {
+    font-size: 1.1rem;
+    color: rgba(26,43,61,0.7);
+    margin-bottom: 40px;
+  }
+
+  /* Question layout */
+  .question-header { padding: 24px 24px 16px; }
+  .question-body { flex: 1; padding: 0 24px 24px; overflow-y: auto; }
+  .question-inner { max-width: 500px; margin: 0 auto; }
+  .question-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 6vw, 2.5rem);
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .question-sub { color: rgba(26,43,61,0.6); margin-bottom: 24px; font-size: 0.95rem; }
+
+  /* Buttons */
+  .btn-primary {
+    width: 100%;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 16px 32px;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-primary:hover:not(:disabled) { background: var(--terracotta-light); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--navy);
+    opacity: 0.6;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    padding: 4px 0;
+    transition: opacity 0.2s;
+  }
+  .btn-back:hover { opacity: 1; }
+  .btn-back svg { width: 20px; height: 20px; }
+
+  /* Progress dots */
+  .progress-dots { display: flex; gap: 8px; margin-top: 16px; }
+  .dot {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--sand);
+    transition: all 0.3s;
+    width: 8px;
+  }
+  .dot.active { background: var(--terracotta); width: 24px; }
+  .dot.done { background: var(--olive-light); }
+
+  /* Choice cards */
+  .choice-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 12px;
+    font-family: var(--font-sans);
+  }
+  .choice-card:hover { border-color: var(--terracotta); box-shadow: 0 4px 12px rgba(201,106,86,0.15); }
+  .choice-card.selected { border-color: var(--terracotta); background: #FFF5F3; }
+  .choice-card .icon {
+    width: 44px; height: 44px;
+    background: var(--sand-light);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+  .choice-card.selected .icon { background: var(--terracotta); }
+  .choice-card .card-title { font-weight: 500; color: var(--navy); font-size: 1rem; }
+  .choice-card .card-desc { color: rgba(26,43,61,0.6); font-size: 0.85rem; margin-top: 2px; }
+
+  /* Grid cards */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .choice-card-grid {
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 16px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    font-family: var(--font-sans);
+  }
+  .choice-card-grid:hover { border-color: var(--terracotta); }
+  .choice-card-grid.selected { border-color: var(--terracotta); background: #FFF5F3; }
+  .choice-card-grid .icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .choice-card-grid .card-title { font-weight: 500; color: var(--navy); font-size: 0.9rem; }
+
+  /* Loading */
+  #loading {
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .spinner {
+    width: 64px; height: 64px;
+    border: 3px solid var(--sand);
+    border-top-color: var(--terracotta);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+  }
+  .loading-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .loading-sub { color: rgba(26,43,61,0.6); text-align: center; }
+
+  /* Suggestions */
+  .dest-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+  }
+  .dest-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.15); transform: scale(1.01); }
+  .dest-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+  .dest-body { padding: 20px; }
+  .dest-name {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--navy);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .dest-tagline { color: rgba(26,43,61,0.7); font-size: 0.9rem; margin-bottom: 12px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .tag {
+    background: var(--sand);
+    color: var(--navy);
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+  .dest-meta {
+    display: flex; gap: 16px;
+    font-size: 0.75rem;
+    color: rgba(26,43,61,0.5);
+    padding-top: 12px;
+    border-top: 1px solid var(--sand);
+  }
+  .dest-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* Trip Plan */
+  .plan-hero { position: relative; }
+  .plan-hero img { width: 100%; height: 240px; object-fit: cover; display: block; }
+  .plan-hero-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px;
+    background: linear-gradient(transparent, rgba(26,43,61,0.8));
+  }
+  .plan-hero-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: white;
+    font-weight: 500;
+  }
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--sand); overflow-x: auto; }
+  .tab {
+    padding: 14px 20px;
+    border: none;
+    background: none;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: rgba(26,43,61,0.5);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab.active { color: var(--terracotta); border-bottom-color: var(--terracotta); }
+  .plan-content { padding: 20px 24px; max-width: 600px; margin: 0 auto; }
+
+  .info-block { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .info-block h4 { font-weight: 600; color: var(--navy); margin-bottom: 8px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .info-block p { color: rgba(26,43,61,0.75); font-size: 0.95rem; line-height: 1.6; }
+
+  .day-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .day-label { font-size: 0.8rem; color: var(--terracotta); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .day-title { font-family: var(--font-serif); font-size: 1.3rem; color: var(--navy); margin-bottom: 12px; }
+  .activity { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--sand-light); }
+  .activity:last-child { border-bottom: none; }
+  .activity-time { font-size: 0.8rem; font-weight: 500; color: var(--terracotta); width: 80px; flex-shrink: 0; padding-top: 1px; }
+  .activity-text { font-size: 0.9rem; color: rgba(26,43,61,0.8); }
+
+  .eat-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .eat-card h4 { font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .eat-card .type { font-size: 0.8rem; color: var(--terracotta); font-weight: 500; margin-bottom: 6px; }
+  .eat-card p { color: rgba(26,43,61,0.7); font-size: 0.9rem; }
+
+  .tip-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex; gap: 12px; }
+  .tip-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .tip-card h4 { font-weight: 600; color: var(--navy); margin-bottom: 4px; font-size: 0.95rem; }
+  .tip-card p { color: rgba(26,43,61,0.7); font-size: 0.9rem; line-height: 1.5; }
+
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  .change-dest-btn {
+    background: var(--sand);
+    color: var(--navy);
+    border: none;
+    border-radius: 100px;
+    padding: 12px 24px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 12px;
+    transition: all 0.2s;
+  }
+  .change-dest-btn:hover { background: var(--sand-light); }
+
+  /* Section label */
+  .section-label { font-size: 0.85rem; color: rgba(26,43,61,0.5); margin-bottom: 12px; margin-top: 20px; }
+
+  /* Checkbox group */
+  .checkbox-group { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .checkbox-label { display: flex; align-items: center; gap: 12px; padding: 10px 0; cursor: pointer; border-bottom: 1px solid var(--sand-light); }
+  .checkbox-label:last-child { border-bottom: none; }
+  .checkbox-label input { width: 20px; height: 20px; accent-color: var(--terracotta); cursor: pointer; }
+  .checkbox-label span { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="welcome" class="screen active fade-in">
+  <div class="welcome-content">
+    <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.15em;color:var(--terracotta);text-transform:uppercase;margin-bottom:12px;">⚡ HERO TRAVEL</div>
+    <h1 class="welcome-title">Din kraft. Din destination.</h1>
+    <p class="welcome-sub">Svara på några frågor och vi hittar ditt nästa uppdrag.</p>
+    <button class="btn-primary" onclick="showScreen('traveller')">Aktivera min kraft</button>
+  </div>
+</div>
+
+<!-- TRAVELLER -->
+<div id="traveller" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="showScreen('welcome')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+    <div class="progress-dots" id="prog-traveller"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <h2 class="question-title">Vem reser?</h2>
+      <div>
+        <div class="choice-card" onclick="selectTraveller('solo')"><div class="icon">🐺</div><div><div class="card-title">Lone Wolf</div><div class="card-desc">Bara jag – ingen att dela äran med</div></div></div>
+        <div class="choice-card" onclick="selectTraveller('couple')"><div class="icon">⚡</div><div><div class="card-title">Dynamisk duo</div><div class="card-desc">Vi två mot världen</div></div></div>
+        <div class="choice-card" onclick="selectTraveller('friends')"><div class="icon">🛡️</div><div><div class="card-title">Hela laget</div><div class="card-desc">Fler krafter, mer kaos</div></div></div>
+        <div class="choice-card" onclick="selectTraveller('family')"><div class="icon">🦸</div><div><div class="card-title">Familjen</div><div class="card-desc">Reser med barn – nästa generation tränas upp</div></div></div>
+        <div class="choice-card" onclick="selectTraveller('multi-gen')"><div class="icon">👑</div><div><div class="card-title">Storfamiljen</div><div class="card-desc">Alla generationer samlade</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AGES -->
+<div id="ages" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="showScreen('traveller')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+    <div class="progress-dots" id="prog-ages"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <h2 class="question-title">Hur gamla är barnen?</h2>
+      <p class="question-sub">Hjälper oss föreslå rätt aktiviteter för hela laget</p>
+      <div class="checkbox-group">
+        <label class="checkbox-label"><input type="checkbox"> <span>Under 3 år <span style="color:rgba(26,43,61,0.45);font-size:0.85rem;">🍼 Sidekick-nivå</span></span></label>
+        <label class="checkbox-label"><input type="checkbox"> <span>3–7 år <span style="color:rgba(26,43,61,0.45);font-size:0.85rem;">⚡ Övermänsklig energi, noll filter</span></span></label>
+        <label class="checkbox-label"><input type="checkbox"> <span>8–12 år <span style="color:rgba(26,43,61,0.45);font-size:0.85rem;">🌀 Krafter håller på att vakna</span></span></label>
+        <label class="checkbox-label"><input type="checkbox"> <span>13+ år <span style="color:rgba(26,43,61,0.45);font-size:0.85rem;">😎 Tror sig redan vara huvudhjälten</span></span></label>
+      </div>
+      <button class="btn-primary" onclick="showScreen('when')">Fortsätt</button>
+    </div>
+  </div>
+</div>
+
+<!-- WHEN -->
+<div id="when" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="goBackFromWhen()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+    <div class="progress-dots" id="prog-when"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <h2 class="question-title">När vill du resa?</h2>
+      <p class="section-label">Tid på året</p>
+      <div class="grid-2">
+        <div class="choice-card-grid" id="s-spring" onclick="selectSeason('spring')"><div class="icon">🌱</div><div class="card-title">Vår</div></div>
+        <div class="choice-card-grid" id="s-summer" onclick="selectSeason('summer')"><div class="icon">☀️</div><div class="card-title">Sommar</div></div>
+        <div class="choice-card-grid" id="s-autumn" onclick="selectSeason('autumn')"><div class="icon">🍂</div><div class="card-title">Höst</div></div>
+        <div class="choice-card-grid" id="s-winter" onclick="selectSeason('winter')"><div class="icon">❄️</div><div class="card-title">Vinter</div></div>
+      </div>
+      <p class="section-label">Hur länge?</p>
+      <div id="dur-cards">
+        <div class="choice-card" id="d-weekend" onclick="selectDuration('weekend')"><div><div class="card-title">Snabbinsats</div><div class="card-desc">2–3 dagar – slå till och försvinn</div></div></div>
+        <div class="choice-card" id="d-1-week" onclick="selectDuration('1-week')"><div><div class="card-title">En vecka</div><div class="card-desc">5–7 dagar – tid att rädda världen ordentligt</div></div></div>
+        <div class="choice-card" id="d-2-weeks" onclick="selectDuration('2-weeks')"><div><div class="card-title">Två veckor</div><div class="card-desc">10–14 dagar – riktigt hjälteformat</div></div></div>
+        <div class="choice-card" id="d-longer" onclick="selectDuration('longer')"><div><div class="card-title">Längre äventyr</div><div class="card-desc">2+ veckor – ingen vet när det tar slut</div></div></div>
+      </div>
+      <button class="btn-primary" id="btn-when" onclick="showScreen('mood')" disabled>Fortsätt</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOOD -->
+<div id="mood" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="showScreen('when')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+    <div class="progress-dots" id="prog-mood"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <h2 class="question-title">Vad är du sugen på?</h2>
+      <p class="question-sub">Välj din superkraft – eller flera</p>
+      <div class="grid-2">
+        <div class="choice-card-grid" id="m-beach" onclick="toggleMood('beach')">
+          <div class="icon">☀️</div>
+          <div class="card-title">Sol & strand</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Solabsorption</div>
+        </div>
+        <div class="choice-card-grid" id="m-city" onclick="toggleMood('city')">
+          <div class="icon">🏙️</div>
+          <div class="card-title">Stad & kultur</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Metropolsinne</div>
+        </div>
+        <div class="choice-card-grid" id="m-food" onclick="toggleMood('food')">
+          <div class="icon">🍷</div>
+          <div class="card-title">Mat & vin</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Kulinarisk alkemi</div>
+        </div>
+        <div class="choice-card-grid" id="m-nature" onclick="toggleMood('nature')">
+          <div class="icon">⛰️</div>
+          <div class="card-title">Natur & vandring</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Terrakinesis</div>
+        </div>
+        <div class="choice-card-grid" id="m-adventure" onclick="toggleMood('adventure')">
+          <div class="icon">🧭</div>
+          <div class="card-title">Äventyr</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Adrenalinmanipulation</div>
+        </div>
+        <div class="choice-card-grid" id="m-wellness" onclick="toggleMood('wellness')">
+          <div class="icon">✨</div>
+          <div class="card-title">Avkoppling</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Regenerationskraft</div>
+        </div>
+        <div class="choice-card-grid" id="m-offbeat" onclick="toggleMood('offbeat')">
+          <div class="icon">👁️</div>
+          <div class="card-title">Bortom turiststråken</div>
+          <div style="font-size:0.72rem;color:rgba(26,43,61,0.5);margin-top:3px;line-height:1.3;">Osynlighetsförmåga</div>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-mood" onclick="showScreen('budget')" disabled>Fortsätt</button>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET -->
+<div id="budget" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="showScreen('mood')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+    <div class="progress-dots" id="prog-budget"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <h2 class="question-title">Vad är din budget?</h2>
+      <div>
+        <div class="choice-card" onclick="selectAndGo('budget-val','budget','distance')"><div class="icon">🎒</div><div><div class="card-title">Budgetvänlig</div><div class="card-desc">Bra värde – allt du behöver, inget du inte behöver</div></div></div>
+        <div class="choice-card" onclick="selectAndGo('comfortable','budget','distance')"><div class="icon">💳</div><div><div class="card-title">Bekväm</div><div class="card-desc">Fina hotell och restauranger</div></div></div>
+        <div class="choice-card" onclick="selectAndGo('treat','budget','distance')"><div class="icon">💎</div><div><div class="card-title">Unna dig</div><div class="card-desc">Exklusivt och minnesvärt</div></div></div>
+        <div class="choice-card" onclick="selectAndGo('luxury','budget','distance')"><div class="icon">👑</div><div><div class="card-title">Inga gränser</div><div class="card-desc">Pengarna är inte problemet. De är aldrig problemet.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISTANCE -->
+<div id="distance" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="showScreen('budget')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+    <div class="progress-dots" id="prog-distance"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <h2 class="question-title">Hur långt vill du resa?</h2>
+      <div>
+        <div class="choice-card" onclick="selectAndGo('nearby','distance','loading')"><div class="icon">🗺️</div><div><div class="card-title">Nära</div><div class="card-desc">Kort flyg eller bilresa</div></div></div>
+        <div class="choice-card" onclick="selectAndGo('europe','distance','loading')"><div class="icon">🌍</div><div><div class="card-title">Inom Europa</div><div class="card-desc">2–4 timmars flyg</div></div></div>
+        <div class="choice-card" onclick="selectAndGo('long-haul','distance','loading')"><div class="icon">✈️</div><div><div class="card-title">Långdistans</div><div class="card-desc">6+ timmars flyg – dit de flesta inte tar sig</div></div></div>
+        <div class="choice-card" onclick="selectAndGo('anywhere','distance','loading')"><div class="icon">♾️</div><div><div class="card-title">Varsomhelst</div><div class="card-desc">Avståndet spelar ingen roll</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="screen" style="align-items:center;justify-content:center;padding:24px;">
+  <div class="fade-in" style="text-align:center;">
+    <div class="spinner"></div>
+    <h3 class="loading-title">Söker din perfekta resa...</h3>
+    <p class="loading-sub">Matchar dina krafter mot resmålen</p>
+  </div>
+</div>
+
+<!-- SUGGESTIONS -->
+<div id="suggestions" class="screen">
+  <div class="question-header">
+    <button class="btn-back" onclick="showScreen('distance')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Tillbaka
+    </button>
+  </div>
+  <div class="question-body">
+    <div class="question-inner fade-in">
+      <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.12em;color:var(--terracotta);text-transform:uppercase;margin-bottom:6px;">⚡ Redo för avfärd</div>
+      <h2 class="question-title">Vi hittade tre resmål för dig</h2>
+      <p class="question-sub">Tryck på ett resmål för att se vad du kan göra, var du äter och hur du tar dig dit</p>
+
+      <div class="dest-card" onclick="showPlan(0)">
+        <img src="https://images.unsplash.com/photo-1555992509-1f7e3f14d4a5?w=800&q=80" alt="Sicily">
+        <div class="dest-body">
+          <div class="dest-name">Sicily, Italy</div>
+          <div class="dest-tagline">Perfekt för Kulinarisk alkemi + Solabsorption. Hög smakintensitet.</div>
+          <div class="tags"><span class="tag">Medelhavskök</span><span class="tag">Antik historia</span><span class="tag">Kustsamhällen</span></div>
+          <div class="dest-meta"><span>📅 Dag för dag</span><span>🍽️ Restauranger</span><span>✈️ Resesätt</span></div>
+        </div>
+      </div>
+
+      <div class="dest-card" onclick="showPlan(1)">
+        <img src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800&q=80" alt="Greece">
+        <div class="dest-body">
+          <div class="dest-name">Greek Islands</div>
+          <div class="dest-tagline">Perfekt för Solabsorption-klassen. Varning: starkt beroendeframkallande.</div>
+          <div class="tags"><span class="tag">Strandliv</span><span class="tag">Färsk skaldjur</span><span class="tag">Kalkvitrappade byar</span></div>
+          <div class="dest-meta"><span>📅 Dag för dag</span><span>🍽️ Restauranger</span><span>✈️ Resesätt</span></div>
+        </div>
+      </div>
+
+      <div class="dest-card" onclick="showPlan(2)">
+        <img src="https://images.unsplash.com/photo-1555992336-fb0d29498b13?w=800&q=80" alt="Provence">
+        <div class="dest-body">
+          <div class="dest-name">Provence, France</div>
+          <div class="dest-tagline">Aktiverar Kulinarisk alkemi och Terrakinesis på en gång. Sällsynt kombination.</div>
+          <div class="tags"><span class="tag">Vinprovning</span><span class="tag">Landsbygd</span><span class="tag">Lokala marknader</span></div>
+          <div class="dest-meta"><span>📅 Dag för dag</span><span>🍽️ Restauranger</span><span>✈️ Resesätt</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRIP PLAN -->
+<div id="plan" class="screen" style="display:none;flex-direction:column;">
+  <div style="position:relative;">
+    <img id="plan-hero-img" src="" alt="" style="width:100%;height:240px;object-fit:cover;display:block;">
+    <div style="position:absolute;top:16px;left:16px;">
+      <button class="btn-back" onclick="showScreen('suggestions')" style="color:white;opacity:0.9;">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Tillbaka
+      </button>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(transparent,rgba(26,43,61,0.8));">
+      <div id="plan-hero-title" style="font-family:var(--font-serif);font-size:2.2rem;color:white;font-weight:500;"></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('overview')">Översikt</button>
+    <button class="tab" onclick="switchTab('days')">Dag för dag</button>
+    <button class="tab" onclick="switchTab('eat')">Mat & dryck</button>
+    <button class="tab" onclick="switchTab('tips')">Tips</button>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:0 0 24px;">
+    <div class="plan-content">
+
+      <div id="tab-overview" class="tab-pane active">
+        <div class="info-block">
+          <h4>Varför Sicilien?</h4>
+          <p>Oktober är sötspotet – varmt medelhavsklimat, skördesäsongens rikedomar och inga turistmassor. Kulinarisk alkemi och Solabsorption aktiveras på hög nivå.</p>
+        </div>
+        <div class="info-block">
+          <h4>Väder i oktober</h4>
+          <p>Varma dagar (21–24 °C), behagliga kvällar, druv- och olivskörd. Solabsorptionskrafter laddas optimalt.</p>
+        </div>
+        <div class="info-block">
+          <h4>Stämningen</h4>
+          <p>Avslappnat öltempo med passionerad lokalbefolkning, dramatiska landskap och en matkultur som är lite magisk – från Etna till antika ruiner.</p>
+        </div>
+        <div class="info-block">
+          <h4>Ta sig dit</h4>
+          <p>Flyg till Palermo (PMO) eller Catania (CTA). Direktflyg från de flesta europeiska städer på 2–3 timmar. Catania ligger närmast Etna och Taormina.</p>
+        </div>
+        <div class="info-block">
+          <h4>Ta sig runt</h4>
+          <p>Hyr bil för maximal frihet – nödvändigt om du vill se landsbygden. Tåg och lokalbuss fungerar bra mellan städer. Ta guide till Etna.</p>
+        </div>
+        <button class="change-dest-btn" onclick="showScreen('suggestions')">Se andra resmål</button>
+      </div>
+
+      <div id="tab-days" class="tab-pane">
+        <div class="day-card">
+          <div class="day-label">Dag 1</div>
+          <div class="day-title">Palermo – Gatumat & marknader</div>
+          <div class="activity"><div class="activity-time">Morgon</div><div class="activity-text">Utforska Ballarò-marknaden, smaka arancini och panelle</div></div>
+          <div class="activity"><div class="activity-time">Eftermiddag</div><div class="activity-text">Besök Palazzo dei Normanni och Cappella Palatina</div></div>
+          <div class="activity"><div class="activity-time">Kväll</div><div class="activity-text">Solnedgångsaperitivt vid Quattro Canti</div></div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">Dag 2</div>
+          <div class="day-title">Etna & vinprovning</div>
+          <div class="activity"><div class="activity-time">Morgon</div><div class="activity-text">Vandra bland Etnas vulkankratrar</div></div>
+          <div class="activity"><div class="activity-time">Eftermiddag</div><div class="activity-text">Vinprovning på ett Etna DOC-vingård</div></div>
+          <div class="activity"><div class="activity-time">Kväll</div><div class="activity-text">Middag i Taormina med utsikt mot Etna</div></div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">Dag 3</div>
+          <div class="day-title">Taormina – Antikt teater & stränder</div>
+          <div class="activity"><div class="activity-time">Morgon</div><div class="activity-text">Besök Teatro Greco med storslagna kustvy</div></div>
+          <div class="activity"><div class="activity-time">Eftermiddag</div><div class="activity-text">Stranddags vid Isola Bella</div></div>
+          <div class="activity"><div class="activity-time">Kväll</div><div class="activity-text">Promenad längs Corso Umberto, gelatoprovning</div></div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">Dag 4</div>
+          <div class="day-title">Tempeldalen, Agrigento</div>
+          <div class="activity"><div class="activity-time">Morgon</div><div class="activity-text">Utforska UNESCO-listade antikgrekiska ruiner</div></div>
+          <div class="activity"><div class="activity-time">Eftermiddag</div><div class="activity-text">Lunch i Agrigento med lokal skaldjur</div></div>
+          <div class="activity"><div class="activity-time">Kväll</div><div class="activity-text">Solnedgång vid Scala dei Turchi vita klippor</div></div>
+        </div>
+        <div class="day-card">
+          <div class="day-label">Dag 5</div>
+          <div class="day-title">Syrakusa & Ortigiaön</div>
+          <div class="activity"><div class="activity-time">Morgon</div><div class="activity-text">Arkeologiska parken Neapolis</div></div>
+          <div class="activity"><div class="activity-time">Eftermiddag</div><div class="activity-text">Vandra i Ortigias barockgator</div></div>
+          <div class="activity"><div class="activity-time">Kväll</div><div class="activity-text">Färsk skaldjursmiddag vid hamnen</div></div>
+        </div>
+      </div>
+
+      <div id="tab-eat" class="tab-pane">
+        <div class="eat-card"><h4>Osteria dei Vespri</h4><div class="type">Upscale Sicilianskt</div><p>Raffinerade sicilianska smaker i ett 1800-talsstall i centrala Palermo. Boka i förväg.</p></div>
+        <div class="eat-card"><h4>Antica Focacceria San Francesco</h4><div class="type">Gatumat sedan 1834</div><p>Historisk fokacceriabod – prova sfincione (siciliansk pizza) och pani ca' meusa.</p></div>
+        <div class="eat-card"><h4>Al Settimo Cielo del Barbarossa</h4><div class="type">Utsikt & skaldjur</div><p>Spektakulär utsikt och suverän skaldjurspasta – bäst i solnedgångstid.</p></div>
+        <div class="eat-card"><h4>Vinprovning Etna DOC</h4><div class="type">Vulkanviner</div><p>Nerello Mascalese från Etnas sluttningar – boka en guidad provning på Benanti eller Cornelissen.</p></div>
+      </div>
+
+      <div id="tab-tips" class="tab-pane">
+        <div class="tip-card"><div class="tip-icon">🚗</div><div><h4>Boka bil tidigt</h4><p>Bilar tar slut snabbt under högsäsong. Boka minst 6 veckor i förväg – din Lone Wolf-instinkt att vänta sista minuten funkar inte här.</p></div></div>
+        <div class="tip-card"><div class="tip-icon">💶</div><div><h4>Ha kontanter</h4><p>Många restauranger och marknader på landsbygden tar bara kontanter. Ha alltid lite euro i fickan.</p></div></div>
+        <div class="tip-card"><div class="tip-icon">🌋</div><div><h4>Ta guide till Etna</h4><p>Vädret kan ändras snabbt och höga partier kräver utrustning. Boka lokal guide – även hjältar behöver backup.</p></div></div>
+        <div class="tip-card"><div class="tip-icon">🕐</div><div><h4>Lunchpausen är helig</h4><p>Butiker och museer stänger 13–16. Planera sightseeing på förmiddagen och kvällarna.</p></div></div>
+        <div class="tip-card"><div class="tip-icon">🗣️</div><div><h4>Lite italienska räcker långt</h4><p>"Grazie", "per favore" och ett leende öppnar fler dörrar än vilken superkraft som helst utanför turiststråken.</p></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const state = { traveller: null, season: null, duration: null, moods: [], budget: null, distance: null };
+
+  const destinations = [
+    { name: 'Sicily, Italy', img: 'https://images.unsplash.com/photo-1555992509-1f7e3f14d4a5?w=1200&q=80' },
+    { name: 'Greek Islands', img: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=1200&q=80' },
+    { name: 'Provence, France', img: 'https://images.unsplash.com/photo-1555992336-fb0d29498b13?w=1200&q=80' },
+  ];
+
+  const screenSteps = { traveller: 0, ages: 1, when: 2, mood: 3, budget: 4, distance: 5 };
+  const totalSteps = 6;
+
+  function renderDots(screenId, current) {
+    const el = document.getElementById('prog-' + screenId);
+    if (!el) return;
+    el.innerHTML = '';
+    for (let i = 0; i < totalSteps; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i < current ? ' done' : '') + (i === current ? ' active' : '');
+      el.appendChild(d);
+    }
+  }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+      s.style.display = '';
+    });
+    const target = document.getElementById(id);
+    target.classList.add('active');
+    if (id in screenSteps) renderDots(id, screenSteps[id]);
+    if (id === 'loading') setTimeout(() => showScreen('suggestions'), 3000);
+    window.scrollTo(0, 0);
+  }
+
+  function selectTraveller(val) {
+    state.traveller = val;
+    setTimeout(() => {
+      if (val === 'family' || val === 'multi-gen') showScreen('ages');
+      else showScreen('when');
+    }, 200);
+  }
+
+  function goBackFromWhen() {
+    if (state.traveller === 'family' || state.traveller === 'multi-gen') showScreen('ages');
+    else showScreen('traveller');
+  }
+
+  function selectSeason(val) {
+    state.season = val;
+    ['spring','summer','autumn','winter'].forEach(s => document.getElementById('s-'+s).classList.remove('selected'));
+    document.getElementById('s-'+val).classList.add('selected');
+    checkWhen();
+  }
+
+  function selectDuration(val) {
+    state.duration = val;
+    ['weekend','1-week','2-weeks','longer'].forEach(d => document.getElementById('d-'+d).classList.remove('selected'));
+    document.getElementById('d-'+val).classList.add('selected');
+    checkWhen();
+  }
+
+  function checkWhen() {
+    document.getElementById('btn-when').disabled = !(state.season && state.duration);
+  }
+
+  function toggleMood(val) {
+    const el = document.getElementById('m-'+val);
+    const idx = state.moods.indexOf(val);
+    if (idx >= 0) { state.moods.splice(idx, 1); el.classList.remove('selected'); }
+    else { state.moods.push(val); el.classList.add('selected'); }
+    document.getElementById('btn-mood').disabled = state.moods.length === 0;
+  }
+
+  function selectAndGo(val, stateKey, nextScreen) {
+    state[stateKey] = val;
+    setTimeout(() => showScreen(nextScreen), 200);
+  }
+
+  function showPlan(idx) {
+    const dest = destinations[idx];
+    document.getElementById('plan-hero-img').src = dest.img;
+    document.getElementById('plan-hero-title').textContent = dest.name;
+    document.getElementById('plan').style.display = 'flex';
+    switchTab('overview');
+    window.scrollTo(0, 0);
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('plan').classList.add('active');
+  }
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      const tabs = ['overview','days','eat','tips'];
+      t.classList.toggle('active', tabs[i] === name);
+    });
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+  }
+</script>
+</body>
+</html>
