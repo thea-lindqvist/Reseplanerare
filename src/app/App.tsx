@@ -97,18 +97,18 @@ export default function App() {
       case 'traveller':
         return (
           <QuestionScreen
-            title="Who's travelling?"
+            title="Vem reser?"
             currentStep={screenToStep.traveller}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-3">
               {[
-                { value: 'solo' as TravellerType, icon: <User />, title: 'Solo', description: 'Just me' },
-                { value: 'couple' as TravellerType, icon: <Heart />, title: 'Couple', description: 'Two of us' },
-                { value: 'friends' as TravellerType, icon: <Users />, title: 'Friends', description: 'A group of friends' },
-                { value: 'family' as TravellerType, icon: <Baby />, title: 'Family with kids', description: 'Travelling with children' },
-                { value: 'multi-gen' as TravellerType, icon: <Users />, title: 'Multi-generation', description: 'Extended family' },
+                { value: 'solo' as TravellerType, icon: <User />, title: 'Ensam', description: 'Bara jag' },
+                { value: 'couple' as TravellerType, icon: <Heart />, title: 'Par', description: 'Vi två' },
+                { value: 'friends' as TravellerType, icon: <Users />, title: 'Vänner', description: 'En grupp vänner' },
+                { value: 'family' as TravellerType, icon: <Baby />, title: 'Familj med barn', description: 'Reser med barn' },
+                { value: 'multi-gen' as TravellerType, icon: <Users />, title: 'Flergenerations', description: 'Storfamilj' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -136,20 +136,20 @@ export default function App() {
       case 'ages':
         return (
           <QuestionScreen
-            title="How old are the kids?"
-            subtitle="This helps us suggest family-friendly activities"
+            title="Hur gamla är barnen?"
+            subtitle="Det hjälper oss föreslå barnvänliga aktiviteter"
             currentStep={screenToStep.ages}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-4">
               <div className="bg-white p-6 rounded-2xl shadow-sm">
-                <p className="text-[var(--navy)]/60 text-sm mb-4">Select age ranges that apply</p>
+                <p className="text-[var(--navy)]/60 text-sm mb-4">Välj de åldersgrupper som passar</p>
                 {[
-                  { label: 'Under 3 years', value: 0 },
-                  { label: '3-7 years', value: 1 },
-                  { label: '8-12 years', value: 2 },
-                  { label: '13+ years', value: 3 },
+                  { label: 'Under 3 år', value: 0 },
+                  { label: '3-7 år', value: 1 },
+                  { label: '8-12 år', value: 2 },
+                  { label: '13+ år', value: 3 },
                 ].map((age, i) => (
                   <label key={i} className="flex items-center gap-3 py-3 cursor-pointer">
                     <input
@@ -170,7 +170,7 @@ export default function App() {
                   </label>
                 ))}
               </div>
-              <PrimaryButton onClick={() => setScreen('when')}>Continue</PrimaryButton>
+              <PrimaryButton onClick={() => setScreen('when')}>Fortsätt</PrimaryButton>
             </div>
           </QuestionScreen>
         );
@@ -178,20 +178,20 @@ export default function App() {
       case 'when':
         return (
           <QuestionScreen
-            title="When do you want to travel?"
+            title="När vill du resa?"
             currentStep={screenToStep.when}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-6">
               <div>
-                <p className="text-sm text-[var(--navy)]/60 mb-3">Time of year</p>
+                <p className="text-sm text-[var(--navy)]/60 mb-3">Tid på året</p>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { value: 'spring' as Season, icon: <Sparkles />, title: 'Spring' },
-                    { value: 'summer' as Season, icon: <Sun />, title: 'Summer' },
-                    { value: 'autumn' as Season, icon: <Wine />, title: 'Autumn' },
-                    { value: 'winter' as Season, icon: <TreePine />, title: 'Winter' },
+                    { value: 'spring' as Season, icon: <Sparkles />, title: 'Vår' },
+                    { value: 'summer' as Season, icon: <Sun />, title: 'Sommar' },
+                    { value: 'autumn' as Season, icon: <Wine />, title: 'Höst' },
+                    { value: 'winter' as Season, icon: <TreePine />, title: 'Vinter' },
                   ].map((option, i) => (
                     <ChoiceCard
                       key={option.value}
@@ -206,13 +206,13 @@ export default function App() {
               </div>
 
               <div>
-                <p className="text-sm text-[var(--navy)]/60 mb-3">How long?</p>
+                <p className="text-sm text-[var(--navy)]/60 mb-3">Hur länge?</p>
                 <div className="space-y-3">
                   {[
-                    { value: 'weekend' as Duration, title: 'Weekend escape', description: '2-3 days' },
-                    { value: '1-week' as Duration, title: 'One week', description: '5-7 days' },
-                    { value: '2-weeks' as Duration, title: 'Two weeks', description: '10-14 days' },
-                    { value: 'longer' as Duration, title: 'Longer adventure', description: '2+ weeks' },
+                    { value: 'weekend' as Duration, title: 'Weekendresa', description: '2-3 dagar' },
+                    { value: '1-week' as Duration, title: 'En vecka', description: '5-7 dagar' },
+                    { value: '2-weeks' as Duration, title: 'Två veckor', description: '10-14 dagar' },
+                    { value: 'longer' as Duration, title: 'Längre äventyr', description: '2+ veckor' },
                   ].map((option, i) => (
                     <ChoiceCard
                       key={option.value}
@@ -230,7 +230,7 @@ export default function App() {
                 onClick={() => setScreen('mood')}
                 disabled={!tripData.season || !tripData.duration}
               >
-                Continue
+                Fortsätt
               </PrimaryButton>
             </div>
           </QuestionScreen>
@@ -239,8 +239,8 @@ export default function App() {
       case 'mood':
         return (
           <QuestionScreen
-            title="What are you in the mood for?"
-            subtitle="Choose as many as you like"
+            title="Vad är du sugen på?"
+            subtitle="Välj hur många du vill"
             currentStep={screenToStep.mood}
             totalSteps={totalSteps}
             onBack={goBack}
@@ -248,13 +248,13 @@ export default function App() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: 'beach' as Mood, icon: <Waves />, title: 'Sun & beach' },
-                  { value: 'city' as Mood, icon: <Building2 />, title: 'City & culture' },
-                  { value: 'food' as Mood, icon: <UtensilsCrossed />, title: 'Food & wine' },
-                  { value: 'nature' as Mood, icon: <Mountain />, title: 'Nature & hiking' },
-                  { value: 'adventure' as Mood, icon: <Compass />, title: 'Adventure' },
-                  { value: 'wellness' as Mood, icon: <Sparkles />, title: 'Relaxation' },
-                  { value: 'offbeat' as Mood, icon: <MapPin />, title: 'Off the beaten path' },
+                  { value: 'beach' as Mood, icon: <Waves />, title: 'Sol & strand' },
+                  { value: 'city' as Mood, icon: <Building2 />, title: 'Stad & kultur' },
+                  { value: 'food' as Mood, icon: <UtensilsCrossed />, title: 'Mat & vin' },
+                  { value: 'nature' as Mood, icon: <Mountain />, title: 'Natur & vandring' },
+                  { value: 'adventure' as Mood, icon: <Compass />, title: 'Äventyr' },
+                  { value: 'wellness' as Mood, icon: <Sparkles />, title: 'Avkoppling' },
+                  { value: 'offbeat' as Mood, icon: <MapPin />, title: 'Bortom turiststråken' },
                 ].map((option, i) => (
                   <ChoiceCard
                     key={option.value}
@@ -277,7 +277,7 @@ export default function App() {
                 onClick={() => setScreen('budget')}
                 disabled={tripData.moods.length === 0}
               >
-                Continue
+                Fortsätt
               </PrimaryButton>
             </div>
           </QuestionScreen>
@@ -286,17 +286,17 @@ export default function App() {
       case 'budget':
         return (
           <QuestionScreen
-            title="What's your budget?"
+            title="Vad är din budget?"
             currentStep={screenToStep.budget}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-3">
               {[
-                { value: 'budget' as Budget, icon: <DollarSign />, title: 'Budget-friendly', description: 'Great value without compromise' },
-                { value: 'comfortable' as Budget, icon: <DollarSign />, title: 'Comfortable', description: 'Nice hotels and dining' },
-                { value: 'treat' as Budget, icon: <DollarSign />, title: 'Treat yourself', description: 'Upscale and memorable' },
-                { value: 'luxury' as Budget, icon: <DollarSign />, title: "Sky's the limit", description: 'The very best experiences' },
+                { value: 'budget' as Budget, icon: <DollarSign />, title: 'Budgetvänlig', description: 'Bra värde utan kompromisser' },
+                { value: 'comfortable' as Budget, icon: <DollarSign />, title: 'Bekväm', description: 'Fina hotell och restauranger' },
+                { value: 'treat' as Budget, icon: <DollarSign />, title: 'Unna dig', description: 'Exklusivt och minnesvärt' },
+                { value: 'luxury' as Budget, icon: <DollarSign />, title: 'Inga gränser', description: 'De allra bästa upplevelserna' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -318,17 +318,17 @@ export default function App() {
       case 'distance':
         return (
           <QuestionScreen
-            title="How far are you willing to travel?"
+            title="Hur långt är du villig att resa?"
             currentStep={screenToStep.distance}
             totalSteps={totalSteps}
             onBack={goBack}
           >
             <div className="space-y-3">
               {[
-                { value: 'nearby' as Distance, icon: <MapPin />, title: 'Nearby', description: 'Short flight or drive' },
-                { value: 'europe' as Distance, icon: <Plane />, title: 'Within Europe', description: '2-4 hours flight' },
-                { value: 'long-haul' as Distance, icon: <Plane />, title: 'Long-haul', description: '6+ hours flight' },
-                { value: 'anywhere' as Distance, icon: <Compass />, title: 'Anywhere', description: 'Distance is no object' },
+                { value: 'nearby' as Distance, icon: <MapPin />, title: 'Nära', description: 'Kort flyg eller bilresa' },
+                { value: 'europe' as Distance, icon: <Plane />, title: 'Inom Europa', description: '2-4 timmars flyg' },
+                { value: 'long-haul' as Distance, icon: <Plane />, title: 'Långdistans', description: '6+ timmars flyg' },
+                { value: 'anywhere' as Distance, icon: <Compass />, title: 'Varsomhelst', description: 'Avståndet spelar ingen roll' },
               ].map((option, i) => (
                 <ChoiceCard
                   key={option.value}
@@ -396,15 +396,15 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
             className="text-6xl md:text-7xl text-[var(--navy)] leading-tight"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Let's find your next trip
+            Låt oss hitta din nästa resa
           </h1>
           <p className="text-lg text-[var(--navy)]/70">
-            Answer a few questions and we'll plan the perfect getaway
+            Svara på några frågor och vi planerar den perfekta resan
           </p>
         </div>
 
         <div className="pt-4">
-          <PrimaryButton onClick={onStart}>Start planning</PrimaryButton>
+          <PrimaryButton onClick={onStart}>Börja planera</PrimaryButton>
         </div>
       </div>
     </div>
@@ -472,10 +472,10 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             className="text-3xl text-[var(--navy)]"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Finding your perfect trip...
+            Söker din perfekta resa...
           </h3>
           <p className="text-[var(--navy)]/60">
-            Searching through amazing destinations
+            Söker igenom fantastiska resmål
           </p>
         </div>
       </div>
@@ -488,20 +488,20 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
   const destinations = [
     {
       name: 'Sicily, Italy',
-      tagline: 'Perfect for autumn sun, food lovers and couples',
-      tags: ['Mediterranean cuisine', 'Ancient history', 'Coastal towns'],
+      tagline: 'Perfekt för höstsol, matälskare och par',
+      tags: ['Medelhavskök', 'Antik historia', 'Kustsamhällen'],
       image: 'https://images.unsplash.com/photo-1555992509-1f7e3f14d4a5?w=800&q=80',
     },
     {
       name: 'Greek Islands',
-      tagline: 'Island hopping paradise with stunning beaches',
-      tags: ['Beach life', 'Fresh seafood', 'White-washed villages'],
+      tagline: 'Paradis för öhopping med fantastiska stränder',
+      tags: ['Strandliv', 'Färsk skaldjur', 'Kalkvitrappade byar'],
       image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800&q=80',
     },
     {
       name: 'Provence, France',
-      tagline: 'Lavender fields and wine country charm',
-      tags: ['Wine tasting', 'Countryside', 'Local markets'],
+      tagline: 'Lavendelfält och vinlandets charm',
+      tags: ['Vinprovning', 'Landsbygd', 'Lokala marknader'],
       image: 'https://images.unsplash.com/photo-1555992336-fb0d29498b13?w=800&q=80',
     },
   ];
@@ -519,10 +519,10 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
               className="text-4xl text-[var(--navy)] leading-tight"
               style={{ fontFamily: 'var(--font-serif)' }}
             >
-              We found these for you
+              Vi hittade dessa åt dig
             </h2>
             <p className="text-[var(--navy)]/60">
-              Tap a destination to see personalized suggestions for what to do, how to travel, and where to eat
+              Tryck på ett resmål för att se personliga förslag på vad du kan göra, hur du reser och var du äter
             </p>
           </div>
 
@@ -564,15 +564,15 @@ function SuggestionsScreen({ onSelectDestination, onBack }: { onSelectDestinatio
                   <div className="flex items-center gap-4 text-xs text-[var(--navy)]/50 pt-2 border-t border-[var(--sand)]">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5" />
-                      Day-by-day plan
+                      Dag för dag-plan
                     </span>
                     <span className="flex items-center gap-1">
                       <UtensilsCrossed className="w-3.5 h-3.5" />
-                      Restaurants
+                      Restauranger
                     </span>
                     <span className="flex items-center gap-1">
                       <Plane className="w-3.5 h-3.5" />
-                      Travel tips
+                      Reseråd
                     </span>
                   </div>
                 </div>
@@ -593,77 +593,77 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
     name: 'Sicily, Italy',
     hero: 'https://images.unsplash.com/photo-1555992509-1f7e3f14d4a5?w=1200&q=80',
     overview: {
-      why: "Sicily in October offers the perfect blend of warm Mediterranean weather, harvest season bounty, and fewer crowds. The island's rich tapestry of Greek, Roman, Arab, and Norman influences creates an unforgettable cultural experience.",
-      bestTime: 'October is ideal - warm days (21-24°C), comfortable evenings, grape and olive harvest season',
-      vibe: 'Relaxed island pace with passionate local culture, incredible food scene, and dramatic landscapes from Mount Etna to ancient ruins',
+      why: "Sicilien i oktober erbjuder den perfekta blandningen av varmt medelhavsklimat, skördesäsongens rikedomar och färre turister. Öns rika historia av grekiska, romerska, arabiska och normandiska influenser skapar en oförglömlig kulturell upplevelse.",
+      bestTime: 'Oktober är idealiskt – varma dagar (21–24 °C), behagliga kvällar, druv- och olivskördens säsong',
+      vibe: 'Avslappnat öltempo med passionerad lokalbefolkning, fantastisk matkultur och dramatiska landskap – från Etna till antika ruiner',
     },
     travel: {
-      gettingThere: 'Fly into Palermo (PMO) or Catania (CTA) airports. Direct flights available from major European cities (2-3 hours from London, Paris, or Berlin). Catania is closer to Mount Etna and Taormina; Palermo is ideal for western Sicily.',
-      gettingAround: 'Rent a car for maximum flexibility - essential for exploring countryside and coastal towns. Alternatively, combine trains for city-to-city travel with local buses or taxis. Consider hiring a driver for Etna excursions.',
-      bestRoutes: 'Start in Palermo, drive east along the coast through Cefalù to Taormina, then south to Syracuse and Ragusa, loop west to Agrigento, and return to Palermo. Or reverse the route starting from Catania.',
+      gettingThere: 'Flyg till Palermo (PMO) eller Catania (CTA). Direktflyg finns från de flesta europeiska storstäder (2–3 timmar från London, Paris eller Berlin). Catania ligger närmare Etna och Taormina; Palermo är bäst för västra Sicilien.',
+      gettingAround: 'Hyr bil för maximal frihet – nödvändigt för att utforska landsbygden och kustsöder. Alternativt kan du kombinera tåg mellan städer med lokalbussar och taxi. Överväg att hyra en förare för Etna-utflykter.',
+      bestRoutes: 'Starta i Palermo, kör österut längs kusten via Cefalù till Taormina, sedan söderut till Syrakusa och Ragusa, sväng västerut mot Agrigento och återvänd till Palermo. Eller gör rutten baklänges från Catania.',
     },
     days: [
       {
-        day: 'Day 1',
-        title: 'Palermo - Street Food & Markets',
+        day: 'Dag 1',
+        title: 'Palermo – Gatumat & marknader',
         activities: [
-          { time: 'Morning', activity: 'Explore Ballarò Market, taste arancini and panelle' },
-          { time: 'Afternoon', activity: 'Visit Palazzo dei Normanni and Cappella Palatina' },
-          { time: 'Evening', activity: 'Sunset aperitivo at Quattro Canti' },
+          { time: 'Morgon', activity: 'Utforska Ballarò-marknaden, smaka arancini och panelle' },
+          { time: 'Eftermiddag', activity: 'Besök Palazzo dei Normanni och Cappella Palatina' },
+          { time: 'Kväll', activity: 'Solnedgångsaperitivt vid Quattro Canti' },
         ],
       },
       {
-        day: 'Day 2',
-        title: 'Mount Etna & Wine Tasting',
+        day: 'Dag 2',
+        title: 'Etna & vinprovning',
         activities: [
-          { time: 'Morning', activity: 'Hike the volcanic craters of Mount Etna' },
-          { time: 'Afternoon', activity: 'Wine tasting at an Etna DOC vineyard' },
-          { time: 'Evening', activity: 'Dinner in Taormina with Etna views' },
+          { time: 'Morgon', activity: 'Vandra bland Etnas vulkankratrar' },
+          { time: 'Eftermiddag', activity: 'Vinprovning på ett Etna DOC-vingård' },
+          { time: 'Kväll', activity: 'Middag i Taormina med utsikt mot Etna' },
         ],
       },
       {
-        day: 'Day 3',
-        title: 'Taormina - Ancient Theater & Beaches',
+        day: 'Dag 3',
+        title: 'Taormina – Antikt teater & stränder',
         activities: [
-          { time: 'Morning', activity: 'Visit Teatro Greco with stunning coastal views' },
-          { time: 'Afternoon', activity: 'Beach time at Isola Bella' },
-          { time: 'Evening', activity: 'Stroll Corso Umberto, gelato tasting' },
+          { time: 'Morgon', activity: 'Besök Teatro Greco med storslagna kustvy' },
+          { time: 'Eftermiddag', activity: 'Stranddags vid Isola Bella' },
+          { time: 'Kväll', activity: 'Promenad längs Corso Umberto, gelatoprovning' },
         ],
       },
       {
-        day: 'Day 4',
-        title: 'Valley of the Temples, Agrigento',
+        day: 'Dag 4',
+        title: 'Tempeldalen, Agrigento',
         activities: [
-          { time: 'Morning', activity: 'Explore the UNESCO ancient Greek ruins' },
-          { time: 'Afternoon', activity: 'Lunch in Agrigento, local seafood' },
-          { time: 'Evening', activity: 'Sunset at Scala dei Turchi white cliffs' },
+          { time: 'Morgon', activity: 'Utforska UNESCO-listade antikgrekiska ruiner' },
+          { time: 'Eftermiddag', activity: 'Lunch i Agrigento med lokal skaldjur' },
+          { time: 'Kväll', activity: 'Solnedgång vid Scala dei Turchi vita klippor' },
         ],
       },
       {
-        day: 'Day 5',
-        title: 'Syracuse & Ortigia Island',
+        day: 'Dag 5',
+        title: 'Syrakusa & Ortigiaön',
         activities: [
-          { time: 'Morning', activity: 'Archaeological Park of Neapolis' },
-          { time: 'Afternoon', activity: 'Wander the baroque streets of Ortigia' },
-          { time: 'Evening', activity: 'Fresh seafood dinner by the harbor' },
+          { time: 'Morgon', activity: 'Arkeologiska parken Neapolis' },
+          { time: 'Eftermiddag', activity: 'Vandra i Ortigias barockgator' },
+          { time: 'Kväll', activity: 'Färsk skaldjursmiddag vid hamnen' },
         ],
       },
       {
-        day: 'Day 6',
-        title: 'Modica & Ragusa - Baroque Towns',
+        day: 'Dag 6',
+        title: 'Modica & Ragusa – barockstäder',
         activities: [
-          { time: 'Morning', activity: 'Modica chocolate tasting tour' },
-          { time: 'Afternoon', activity: 'Explore Ragusa Ibla\'s stunning architecture' },
-          { time: 'Evening', activity: 'Traditional Sicilian dinner in a local osteria' },
+          { time: 'Morgon', activity: 'Chokladprovningstur i Modica' },
+          { time: 'Eftermiddag', activity: 'Utforska Ragusa Iblas fantastiska arkitektur' },
+          { time: 'Kväll', activity: 'Traditionell siciliansk middag på lokal osteria' },
         ],
       },
       {
-        day: 'Day 7',
-        title: 'Cefalù - Coastal Relaxation',
+        day: 'Dag 7',
+        title: 'Cefalù – avkoppling vid kusten',
         activities: [
-          { time: 'Morning', activity: 'Beach time at Cefalù\'s golden sands' },
-          { time: 'Afternoon', activity: 'Visit the Norman Cathedral' },
-          { time: 'Evening', activity: 'Farewell dinner at a seafood restaurant' },
+          { time: 'Morgon', activity: 'Stranddags vid Cefalùs gyllene sand' },
+          { time: 'Eftermiddag', activity: 'Besök den normandiska katedralen' },
+          { time: 'Kväll', activity: 'Avskedsmiddag på en skaldjursrestaurang' },
         ],
       },
     ],
@@ -671,59 +671,59 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
       {
         name: 'Ristorante Coria',
         location: 'Ortigia, Syracuse',
-        specialty: 'Contemporary Sicilian with sea views',
-        cuisine: 'Modern Sicilian',
+        specialty: 'Modernt sicilianskt kök med havsutsikt',
+        cuisine: 'Modernt sicilianskt',
         priceRange: '€€€',
-        why: 'Michelin-recommended with innovative takes on classic recipes and stunning harbor views'
+        why: 'Michelin-rekommenderat med nyskapande tolkningar av klassiska recept och fantastisk hamnvy'
       },
       {
         name: 'Trattoria del Corso',
         location: 'Taormina',
-        specialty: 'Traditional pasta alla Norma',
-        cuisine: 'Traditional Sicilian',
+        specialty: 'Traditionell pasta alla Norma',
+        cuisine: 'Traditionellt sicilianskt',
         priceRange: '€€',
-        why: 'Family-run for 40 years, locals swear by their handmade pasta and eggplant dishes'
+        why: 'Familjedriven i 40 år, lokalbefolkningen svär vid deras handgjorda pasta och auberginerätter'
       },
       {
         name: 'La Bettola',
         location: 'Cefalù',
-        specialty: 'Fresh catch of the day, beachside',
-        cuisine: 'Seafood',
+        specialty: 'Dagens fångst, direkt vid stranden',
+        cuisine: 'Skaldjur',
         priceRange: '€€',
-        why: 'Tables on the sand, fish bought directly from fishermen each morning'
+        why: 'Bord på sanden, fisken köps direkt från fiskarna varje morgon'
       },
       {
         name: 'Antica Dolceria Bonajuto',
         location: 'Modica',
-        specialty: 'Historic chocolate making since 1880',
-        cuisine: 'Desserts & Chocolate',
+        specialty: 'Historisk chokladtillverkning sedan 1880',
+        cuisine: 'Desserter & Choklad',
         priceRange: '€',
-        why: 'Sicily\'s oldest chocolate maker, using ancient Aztec techniques with cinnamon and chili'
+        why: 'Siciliens äldsta chokladmakare, använder gamla aztekiska tekniker med kanel och chili'
       },
       {
         name: 'Osteria Mercede',
         location: 'Palermo',
-        specialty: 'Street food elevated',
-        cuisine: 'Street Food',
+        specialty: 'Gatumat lyft till ny nivå',
+        cuisine: 'Gatumat',
         priceRange: '€',
-        why: 'Taste Palermo\'s famous street food in a charming setting - best arancini in the city'
+        why: 'Smaka Palermos berömda gatumat i en charmig miljö – bästa arancini i staden'
       },
       {
         name: 'Trattoria da Nino',
-        location: 'Mount Etna slopes',
-        specialty: 'Etna wine pairings with local dishes',
-        cuisine: 'Regional Sicilian',
+        location: 'Etnas sluttningar',
+        specialty: 'Etnaviner med lokala rätter',
+        cuisine: 'Regionalt sicilianskt',
         priceRange: '€€',
-        why: 'Family vineyard restaurant with volcanic soil wines and produce from their garden'
+        why: 'Familjens vingårdsrestaurang med vulkanjordsviner och råvaror från den egna trädgården'
       },
     ],
     tips: [
-      'Rent a car for flexibility exploring the countryside',
-      'Learn basic Italian greetings - locals appreciate the effort',
-      'Pack layers - October mornings can be cool, afternoons warm',
-      'Book Etna tours in advance, weather dependent',
-      'Many restaurants close 3-5pm (siesta time)',
-      'Cash is king in smaller towns and markets',
+      'Hyr bil för frihet att utforska landsbygden',
+      'Lär dig grundläggande italienska hälsningsfraser – lokalbefolkningen uppskattar det',
+      'Packa lager – oktobermorgnar kan vara svala, eftermiddagarna varma',
+      'Boka Etna-turer i förväg, väderberoende',
+      'Många restauranger stänger 15–17 (siesta)',
+      'Kontanter är kung i mindre städer och på marknader',
     ],
   };
 
@@ -763,10 +763,10 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
       <div className="sticky top-0 bg-white shadow-sm z-20">
         <div className="flex overflow-x-auto">
           {[
-            { value: 'overview', label: 'Overview' },
-            { value: 'days', label: 'Day by day' },
-            { value: 'eat', label: 'Eat & drink' },
-            { value: 'tips', label: 'Good to know' },
+            { value: 'overview', label: 'Översikt' },
+            { value: 'days', label: 'Dag för dag' },
+            { value: 'eat', label: 'Mat & dryck' },
+            { value: 'tips', label: 'Bra att veta' },
           ].map((tab) => (
             <button
               key={tab.value}
@@ -796,7 +796,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--navy)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Why Sicily?
+                  Varför Sicilien?
                 </h3>
                 <p className="text-[var(--navy)]/70 leading-relaxed">{destination.overview.why}</p>
               </div>
@@ -806,7 +806,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--navy)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Weather in October
+                  Väder i oktober
                 </h3>
                 <p className="text-[var(--navy)]/70 leading-relaxed">{destination.overview.bestTime}</p>
               </div>
@@ -816,7 +816,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--navy)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  The Vibe
+                  Stämningen
                 </h3>
                 <p className="text-[var(--navy)]/70 leading-relaxed">{destination.overview.vibe}</p>
               </div>
@@ -826,7 +826,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--navy)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Getting There
+                  Ta sig dit
                 </h3>
                 <p className="text-[var(--navy)]/70 leading-relaxed">{destination.travel.gettingThere}</p>
               </div>
@@ -836,7 +836,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--navy)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Getting Around
+                  Ta sig runt
                 </h3>
                 <p className="text-[var(--navy)]/70 leading-relaxed">{destination.travel.gettingAround}</p>
               </div>
@@ -846,7 +846,7 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
                   className="text-2xl text-[var(--navy)] mb-3"
                   style={{ fontFamily: 'var(--font-serif)' }}
                 >
-                  Suggested Route
+                  Föreslagen rutt
                 </h3>
                 <p className="text-[var(--navy)]/70 leading-relaxed">{destination.travel.bestRoutes}</p>
               </div>
@@ -857,9 +857,9 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
             <div className="space-y-4 animate-fade-in">
               <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
                 <p className="text-[var(--navy)]/70 leading-relaxed">
-                  This 7-day itinerary balances must-see sights with relaxation, mixing ancient ruins,
-                  coastal towns, volcanic landscapes, and authentic food experiences. Each day offers
-                  morning activities, afternoon exploration, and evening dining recommendations.
+                  Det här 7-dagarsprogrammet balanserar sevärdheter med avkoppling och blandar antika ruiner,
+                  kustsamhällen, vulkaniska landskap och autentiska matupplevelser. Varje dag erbjuder
+                  morgnaktiviteter, eftermiddagsutflykter och kvällsmatsrekommendationer.
                 </p>
               </div>
               {destination.days.map((day, i) => (
@@ -901,9 +901,9 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
             <div className="space-y-4 animate-fade-in">
               <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
                 <p className="text-[var(--navy)]/70 leading-relaxed">
-                  Sicilian cuisine is a celebration of the island\'s diverse heritage. Expect bold flavors,
-                  fresh seafood, sun-ripened produce, and dishes that blend Arab, Greek, and Italian influences.
-                  Don\'t miss the street food in Palermo and the unique chocolate in Modica.
+                  Det sicilianska köket är en fest av öns mångfacetterade arv. Förvänta dig kraftfulla smaker,
+                  färska skaldjur, solmogna råvaror och rätter som blandar arabiska, grekiska och italienska influenser.
+                  Missa inte gatumaten i Palermo och den unika chokladen i Modica.
                 </p>
               </div>
               {destination.restaurants.map((rest, i) => (
@@ -964,12 +964,12 @@ function TripPlanScreen({ destinationIndex, onBack, onChangeDestination }: { des
             onClick={onChangeDestination}
             className="flex-1 py-3 px-6 rounded-full border-2 border-[var(--terracotta)] text-[var(--terracotta)] font-medium hover:bg-[var(--terracotta)]/5 transition-colors"
           >
-            See other destinations
+            Se andra resmål
           </button>
           <button
             className="flex-1 py-3 px-6 rounded-full bg-[var(--terracotta)] text-white font-medium hover:bg-[var(--terracotta-light)] transition-colors shadow-lg"
           >
-            Save this trip
+            Spara denna resa
           </button>
         </div>
       </div>
